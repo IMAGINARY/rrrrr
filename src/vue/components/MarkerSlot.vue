@@ -86,6 +86,11 @@ watch(
     }
   },
 );
+
+function handleLoadError(url: string) {
+  const msg = `Loading marker slot image ${url} failed`;
+  console.error(msg);
+}
 </script>
 
 <template>
@@ -108,6 +113,7 @@ watch(
           '--asset-x': markerSlotActivePosition.x,
           '--asset-y': markerSlotActivePosition.y,
         }"
+        @error="() => handleLoadError(markerSlotActiveUrl.href)"
       />
       <img
         v-show="!isActive"
@@ -117,6 +123,7 @@ watch(
           '--asset-x': markerSlotInactivePosition.x,
           '--asset-y': markerSlotInactivePosition.y,
         }"
+        @error="() => handleLoadError(markerSlotInactiveUrl.href)"
       />
     </div>
     <div

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
 import { useConfigStore } from '../../ts/stores/config';
 import { useAppStore } from '../../ts/stores/app';
 
@@ -10,14 +8,19 @@ const props = defineProps<{
   active: boolean;
 }>();
 
-const { toAssetUrl, extractAssetPosition } = useConfigStore();
+const { toAssetUrl } = useConfigStore();
 const appStore = useAppStore();
 
-const assetUrl = computed(() => toAssetUrl(props.url));
+const assetUrl = toAssetUrl(props.url);
 
 // const position = computed(() => extractAssetPosition(assetUrl.value));
 // Keep the position fixed for now
 const position = { x: 0, y: 0 };
+
+function handleLoadError() {
+  const msg = `Loading card image ${assetUrl.href} failed`;
+  console.error(msg);
+}
 </script>
 
 <template>
@@ -29,7 +32,12 @@ const position = { x: 0, y: 0 };
       '--card-y': position.y,
     }"
   >
-    <img :src="assetUrl.href" :alt="label" class="image" />
+    <img
+      :src="assetUrl.href"
+      :alt="label"
+      class="image"
+      @error="handleLoadError"
+    />
     <div class="label" v-if="appStore.isDeveloperModeActive">
       <span class="highlight">{{ label }}</span>
     </div>

@@ -41,6 +41,11 @@ function compileLayer({ condition, url }: ConditionalLayerConfig): {
 }
 
 const compiledLayer = compileLayer(props.layerConfig);
+
+function handleLoadError() {
+  const msg = `Loading conditional overlay image ${compiledLayer.url.href} failed`;
+  console.error(msg);
+}
 </script>
 
 <template>
@@ -52,7 +57,8 @@ const compiledLayer = compileLayer(props.layerConfig);
       '--layer-x': compiledLayer.x,
       '--layer-y': compiledLayer.y,
     }"
-    :alt="`${compiledLayer.condition} -> ${compiledLayer.url}`"
+    :alt="`${compiledLayer.condition} -> ${compiledLayer.url.href}`"
+    @error="handleLoadError"
   />
 </template>
 
