@@ -26,7 +26,7 @@ const MARKER_CIRCLE_DIAMETER =
 const NUM_POINTER_MARKERS = 8;
 const POINTER_MARKER_COORDINATES = new Array(NUM_POINTER_MARKERS)
   .fill(0)
-  .map(() => ({ x: 3245, y: 2070 }));
+  .map(() => ({ x: 188, y: 1589 }));
 
 const SLOT_CIRCLE_DIAMETER = MARKER_CIRCLE_DIAMETER;
 
