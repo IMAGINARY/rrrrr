@@ -21,7 +21,10 @@ layers:
   - url: broken_cell3_x2307_y801.webp
     condition: 'stocks.supplyOfBrokenPhones > 1300000'
   - url: factory-smoke_x958_y1363.webp
-    condition: 'true'
+    condition:
+      '!parameters.userdata?.policy?.["(P) Ein-Telefon-Gesetz"] &&
+      !parameters.userdata?.event?.["(E) Weltweite Chip-Krise"] &&
+      !parameters.userdata?.event?.["(E) Transport Streik"]'
   - url: factory-building_x692_y1343.webp
     condition: 'true'
   - url: factory_pipe_x673_y997.webp
@@ -60,14 +63,22 @@ layers:
     condition: 'parameters.userdata.recycle >= 2.5'
   - url: recycle_man2_x925_y340.webp
     condition: 'parameters.userdata.recycle >= 1.5'
-  - url: recycle_plantexit_x623_y328.webp
-    condition: 'true'
+  - url: recycle-beltempty_x638_y309.webp
+    condition: 'stocks.supplyOfRecycledMaterials <= 50000'
+  - url: recycle-beltanimleast_x638_y309.webp
+    condition:
+      'stocks.supplyOfRecycledMaterials > 50000 &&
+      stocks.supplyOfRecycledMaterials<=190000'
+  - url: recycle-beltanimmedium_x638_y309.webp
+    condition:
+      'stocks.supplyOfRecycledMaterials > 190000 &&
+      stocks.supplyOfRecycledMaterials <= 290000'
+  - url: recycle-beltanimmost_x638_y309.webp
+    condition: 'stocks.supplyOfRecycledMaterials > 290000'
   - url: recycle_man3_x622_y453.webp
     condition: 'parameters.userdata.recycle >= 0.5'
   - url: recycle_woman_x840_y417.webp
     condition: 'true'
-  - url: recycle_phones2_x789_y393.webp
-    condition: 'stocks.supplyOfRecycledMaterials > 1000'
   - url: recycle_boxwithr_x974_y259.webp
     condition: 'true'
   - url: reduce_subwaybench_x1050_y948.webp
