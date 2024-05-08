@@ -69,7 +69,7 @@ function deriveConfig(partialConfigText: string): Config | null {
   }
 }
 
-async function importInitialParameters() {
+function importInitialParameters() {
   const newConfig = deriveConfig(initialParametersYamlText.value);
   initialParametersImportState.value =
     newConfig === null ? OState.ERROR : OState.UNKNOWN;
@@ -92,7 +92,7 @@ async function importParameterTransforms() {
 
   const { parameterTransforms: validatedParameterTransforms } = newConfig;
 
-  const transformParametersPromise = new Promise((resolve, reject) => {
+  const transformParametersPromise = new Promise((resolve) => {
     watch(transformedParametersExt, resolve, { deep: true, once: true });
   });
 
@@ -106,7 +106,7 @@ async function importParameterTransforms() {
 function exportInitialParameters() {
   initialParametersImportState.value = OState.UNPROCESSED;
   const exportObj = {
-    model: { initialParameters: initialParameters },
+    model: { initialParameters },
   };
   initialParametersYamlText.value = yaml.dump(exportObj);
   console.log(initialParametersYamlText.value);

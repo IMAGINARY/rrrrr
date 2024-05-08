@@ -280,7 +280,8 @@ function toModelEvaluator(graph: Graph) {
     topSort.filter(isFlorOrVariable);
 
   const prefix = `// eslint-disable-next-line class-methods-use-this
-public evaluate(stocks: Stocks, parameters: Parameters, t: number): Record {`;
+public evaluate(stocks: Stocks, parameters: Parameters, t: number): Record {
+  /* eslint-disable @typescript-eslint/no-unused-vars */`;
 
   const stockDestructuring = `const { ${stocks
     .map((e) => e.name)
@@ -346,6 +347,7 @@ function toFlowPerStockAccumulator(stocks: Stock[], flows: Flow[]) {
 
   return `// eslint-disable-next-line class-methods-use-this
 public accumulateFlowsPerStock(flows: Flows): Stocks {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   ${flowDestructuring}
   
   const flowPerStock: Stocks = {

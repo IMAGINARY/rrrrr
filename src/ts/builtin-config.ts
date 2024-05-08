@@ -1,4 +1,5 @@
-import type { DeepReadonly } from 'ts-essentials';
+// @ts-expect-error The import attribute is resolved by the Parcel bundler, but not supported in the current TypeScript configuration
+import { getGitVersionInfo } from './util/parcel-macros' with { type: 'macro' };
 
 const CONFIG_BASE_URL = new URL('./config/', window.location.href);
 const CONFIG_FILENAMES = [
@@ -39,6 +40,8 @@ const HOTKEYS = {
   reset: { key: 'r', label: 'r' },
 } as const;
 
+const GIT_VERSION_INFO = getGitVersionInfo();
+
 export {
   CONFIG_BASE_URL,
   CONFIG_INJECTION_KEY,
@@ -53,4 +56,5 @@ export {
   POINTER_MARKER_COORDINATES,
   SLOT_CIRCLE_DIAMETER,
   HOTKEYS,
+  GIT_VERSION_INFO,
 };

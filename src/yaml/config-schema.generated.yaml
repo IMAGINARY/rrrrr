@@ -33,11 +33,7 @@ properties:
   interaction:
     $ref: '#/definitions/InteractionConfig'
   layers:
-    type: array
-    items:
-      anyOf:
-        - $ref: '#/definitions/ModelVisualizationLayerConfig'
-        - $ref: '#/definitions/ConditionalLayerConfig'
+    $ref: '#/definitions/LayersConfig'
 required:
   - general
   - model
@@ -290,7 +286,7 @@ definitions:
         $ref: '#/definitions/I18nConfig'
       assets:
         $ref: '#/definitions/SlotGroupAssetConfig'
-      slots:
+      markerSlots:
         type: array
         items:
           $ref: '#/definitions/MarkerSlotConfig'
@@ -303,7 +299,7 @@ definitions:
       - type
       - label
       - assets
-      - slots
+      - markerSlots
       - parameterTransformIds
     additionalProperties: false
   CardSlotConfig:
@@ -406,7 +402,7 @@ definitions:
       - cardSlots
       - cards
     additionalProperties: false
-  SlotGroup:
+  SlotGroupConfig:
     anyOf:
       - $ref: '#/definitions/BasicSlotGroupConfig'
       - $ref: '#/definitions/ActionCardSlotGroupConfig'
@@ -432,7 +428,7 @@ definitions:
       slotGroups:
         type: array
         items:
-          $ref: '#/definitions/SlotGroup'
+          $ref: '#/definitions/SlotGroupConfig'
     required:
       - actionCardDelayMs
       - eventCardMinDelayMs
@@ -457,3 +453,11 @@ definitions:
       - url
       - condition
     additionalProperties: false
+  LayerConfig:
+    anyOf:
+      - $ref: '#/definitions/ModelVisualizationLayerConfig'
+      - $ref: '#/definitions/ConditionalLayerConfig'
+  LayersConfig:
+    type: array
+    items:
+      $ref: '#/definitions/LayerConfig'

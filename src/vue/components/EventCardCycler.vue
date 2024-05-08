@@ -42,6 +42,7 @@ const getRandomDurationMs = () =>
   eventCardMinDurationMs +
   Math.random() * Math.abs(eventCardMaxDurationMs - eventCardMinDurationMs);
 
+// TODO: Avoid csa parameter reassign
 interface CardSlotAssignment {
   cardSlotConfig: DeepReadonly<CardSlotConfig>;
   cardConfig: DeepReadonly<CardConfig> | null;
@@ -79,9 +80,11 @@ const getNextEventCard = () => {
 };
 
 const fillCardSlot = (csa: CardSlotAssignment) => {
+  /* eslint-disable no-param-reassign */
   csa.deactivateCard();
   csa.stopFilling();
   const { cardConfig, parameterTransform } = getNextEventCard();
+  // eslint-disable-next-line no-param-reassign
   csa.cardConfig = cardConfig;
   parameterTransform.active = true;
   const durationMs = getRandomDurationMs();
@@ -104,6 +107,7 @@ const fillCardSlot = (csa: CardSlotAssignment) => {
 };
 
 const activateCardSlotAssignments = () => {
+  /* eslint-disable no-param-reassign */
   let delayMultiplier = 0;
   cardSlotAssignments.forEach((csa) => {
     if (csa.cardConfig === null) {

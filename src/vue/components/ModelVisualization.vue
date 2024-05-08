@@ -4,9 +4,11 @@ import type { ElementOf } from 'ts-essentials';
 import { strict as assert } from 'assert';
 import kebabCase from 'lodash/kebabCase';
 import camelCase from 'lodash/camelCase';
+import clamp from 'lodash/clamp';
 import { onMounted, ref, computed } from 'vue';
 import { toReactive } from '@vueuse/core';
 import { v4 as uuid4 } from 'uuid';
+import { storeToRefs } from 'pinia';
 
 import type { ModelElementObject } from '../../ts/model';
 import { type Record, type StockId } from '../../ts/circular-economy-model';
@@ -19,7 +21,6 @@ import { stockIds } from '../../ts/circular-economy-model';
 import { loadSvg } from '../../ts/util/load-svg';
 import { getCircleCenter } from '../../ts/util/geometry/svg';
 import { guardedQuerySelector } from '../../ts/util/guarded-query-selectors';
-import { storeToRefs } from 'pinia';
 
 const svgUrl = new URL('../../svg/model.svg', import.meta.url);
 const uuid = uuid4();
@@ -60,6 +61,12 @@ const mainSupplyIds = [
 ] as const;
 
 const additionalVerbatimSupplyIds = ['phonesInUse'] as const;
+
+const stockIdsMap = {
+  capacity: mainCapacityIds,
+  supply: mainSupplyIds,
+  verbatim: additionalVerbatimSupplyIds,
+} as const;
 
 type MainFlowIds = typeof mainFlowIds;
 type MainFlowId = ElementOf<MainFlowIds>;
@@ -118,7 +125,7 @@ const useStockToRadius = (stockId: StockId) => {
     const { record } = updateInfo.value;
     const { stocks } = record;
     const stock = stocks[stockId];
-    const stockVizScale = updateInfo.value.stockVizScale;
+    const { stockVizScale } = updateInfo.value;
     return Math.sqrt((stock * stockVizScale) / Math.PI);
   });
   return { radius };
@@ -148,27 +155,19 @@ const useFlowToDashoffset = (flowId: MainFlowId) => {
 const useFlowToHighlight = (flowId: MainFlowId) => {
   let previousFlow = updateInfo.value.record.flows[flowId];
   const highlight = computed(() => {
+    // TODO: fine-tune formula
     const { flowVizScale, record, stepSize } = updateInfo.value;
     const flow = record.flows[flowId];
     const flowDerivative = (flow - previousFlow) / stepSize;
     const scaledFlowDerivative =
       scaleFactors.value.flowHighlight * flowVizScale * flowDerivative;
-
-    // TODO: fine-tune formula
-    const highlight =
-      0.5 *
-      (1 +
-        Math.min(
-          Math.max(
-            Math.sign(scaledFlowDerivative) *
-              Math.sqrt(Math.abs(scaledFlowDerivative)),
-            -1,
-          ),
-          1,
-        ));
+    const mappedFlowDerivative =
+      Math.sign(scaledFlowDerivative) *
+      Math.sqrt(Math.abs(scaledFlowDerivative));
+    const result = clamp((1 + mappedFlowDerivative) / 2, 0, 1);
     previousFlow = flow;
-    return appStore.highlightDerivatives && !Number.isNaN(highlight)
-      ? highlight
+    return appStore.highlightDerivatives && !Number.isNaN(result)
+      ? result
       : 0.5;
   });
   return { highlight };
@@ -194,14 +193,9 @@ const extractFlowDescriptions = (svgElement: SVGElement): FlowDescription[] =>
 
 const extractStockDescriptions = (
   svgElement: SVGElement,
-  type: 'supply' | 'capacity' | 'verbatim',
+  type: keyof typeof stockIdsMap,
 ): StockDescription[] => {
-  const mainStockIds =
-    type === 'supply'
-      ? mainSupplyIds
-      : type === 'capacity'
-        ? mainCapacityIds
-        : additionalVerbatimSupplyIds;
+  const mainStockIds = stockIdsMap[type];
   return mainStockIds.map((mainId) => {
     const stockElement = guardedQuerySelector(
       SVGGeometryElement,
@@ -238,7 +232,7 @@ const flowElements = ref<SVGPathElement[]>([]);
 const supplyElements = ref<SVGCircleElement[]>([]);
 
 onMounted(() => {
-  svgPromise.then((svg) => {
+  void svgPromise.then((svg) => {
     flowDescriptions.value.push(...extractFlowDescriptions(svg));
     capacityDescriptions.value.push(
       ...extractStockDescriptions(svg, 'capacity'),

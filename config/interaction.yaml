@@ -105,10 +105,10 @@ interaction:
           url: slots/marker-slot-cyan_x-121_y-121.webp
         markerSlotInactive:
           url: slots/marker-slot-inactive_x-121_y-121.webp
-      slots:
+      markerSlots:
         - { id: reduce-ms-1, x: 1574, y: 1171, angle: 0 }
         - { id: reduce-ms-2, x: 1821, y: 1234, angle: 0 }
-        - { id: reduce-ms-2, x: 2066, y: 1294, angle: 0 }
+        - { id: reduce-ms-3, x: 2066, y: 1294, angle: 0 }
       parameterTransformIds: [reduce, reduce, reduce]
     - id: reuse
       type: basic
@@ -122,7 +122,7 @@ interaction:
           url: slots/marker-slot-cyan_x-121_y-121.webp
         markerSlotInactive:
           url: slots/marker-slot-inactive_x-121_y-121.webp
-      slots:
+      markerSlots:
         - { id: reuse-ms-1, x: 3626, y: 902, angle: -90 }
         - { id: reuse-ms-2, x: 3634, y: 1155, angle: -90 }
         - { id: reuse-ms-3, x: 3644, y: 1410, angle: -90 }
@@ -137,7 +137,7 @@ interaction:
           url: slots/marker-slot-cyan_x-121_y-121.webp
         markerSlotInactive:
           url: slots/marker-slot-inactive_x-121_y-121.webp
-      slots:
+      markerSlots:
         - { id: repair-ms-1, x: 1413, y: 904, angle: 180 }
         - { id: repair-ms-2, x: 1646, y: 798, angle: 180 }
         - { id: repair-ms-3, x: 1876, y: 693, angle: 180 }
@@ -152,7 +152,7 @@ interaction:
           url: slots/marker-slot-cyan_x-121_y-121.webp
         markerSlotInactive:
           url: slots/marker-slot-inactive_x-121_y-121.webp
-      slots:
+      markerSlots:
         - { id: refurbish-ms-1, x: 2686, y: 1884, angle: 0 }
         - { id: refurbish-ms-2, x: 2935, y: 1829, angle: 0 }
         - { id: refurbish-ms-3, x: 3180, y: 1774, angle: 0 }
@@ -169,7 +169,7 @@ interaction:
           url: slots/marker-slot-cyan_x-121_y-121.webp
         markerSlotInactive:
           url: slots/marker-slot-inactive_x-121_y-121.webp
-      slots:
+      markerSlots:
         - { id: recycle-ms-1, x: 507, y: 476, angle: 180 }
         - { id: recycle-ms-2, x: 709, y: 320, angle: 180 }
         - { id: recycle-ms-3, x: 911, y: 167, angle: 180 }

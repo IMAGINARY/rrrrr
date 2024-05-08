@@ -34,8 +34,8 @@ export function useParameterTransformId(id: string): ParameterTransformState {
     id,
     uuid,
     active,
-    setActive: function (active: boolean) {
-      if (this.active !== active) this.active = active;
+    setActive(newActive: boolean) {
+      if (this.active !== newActive) this.active = newActive;
     },
   };
   return reactive(result);

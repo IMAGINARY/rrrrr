@@ -6,8 +6,6 @@ import { useConfigStore } from '../../ts/stores/config';
 import { useModelStore } from '../../ts/stores/model';
 import { compile } from '../../ts/util/record-condition';
 
-type Record = ReturnType<typeof useModelStore>['record'];
-
 const { config, getPrimary, getSecondary } = useConfigStore();
 const { autoReset: autoResetConfig } = config.general;
 const modelStore = useModelStore();
@@ -33,6 +31,9 @@ function watchModel() {
           case -1:
             stopCountdown();
             watchModel();
+            break;
+          default:
+            // do nothing
             break;
         }
       }).pause;

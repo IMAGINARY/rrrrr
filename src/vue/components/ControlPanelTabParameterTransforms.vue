@@ -51,9 +51,10 @@ function remove(id: string) {
       .findIndex((pt) => pt.id === id) !== -1;
 
   if (usedNonInternally) {
-    alert(
-      'Cannot remove parameter transform that is still used in a non-internal slot group',
-    );
+    const msg =
+      'Cannot remove parameter transform that is still used in a non-internal slot group';
+    // eslint-disable-next-line no-alert
+    alert(msg);
     return;
   }
 

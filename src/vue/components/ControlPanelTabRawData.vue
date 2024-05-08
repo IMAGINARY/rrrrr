@@ -26,7 +26,7 @@ const format3 = createFormatter(3);
 <template>
   <template v-if="!props.disabled">
     <div class="container">
-      <template v-for="elementId in Model.elementIds">
+      <template v-for="elementId in Model.elementIds" :key="elementId">
         <div class="preformatted">
           {{
             `${elementId}: ${JSON.stringify(modelStore.record[elementId], format2, 2)}`
@@ -45,7 +45,7 @@ const format3 = createFormatter(3);
   display: flex;
   flex-flow: column wrap;
   justify-content: flex-start;
-  margin-left: 0px;
+  margin-left: 0;
   width: 800px;
   height: 800px;
 }

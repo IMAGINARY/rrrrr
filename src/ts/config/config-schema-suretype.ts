@@ -92,7 +92,7 @@ const BasicSlotGroupSchema = suretype(
       type: v.string().enum('basic').required(),
       label: I18nSchema.required(),
       assets: SlotGroupAssetSchema.required(),
-      slots: v.array(MarkerSlotSchema).required(),
+      markerSlots: v.array(MarkerSlotSchema).required(),
       parameterTransformIds: v.array(v.string()).required(),
     })
     .additional(false),
@@ -137,7 +137,7 @@ const EventCardSlotGroupSchema = suretype(
 );
 
 const SlotGroupSchema = suretype(
-  { name: 'SlotGroup' },
+  { name: 'SlotGroupConfig' },
   v.anyOf([
     BasicSlotGroupSchema,
     ActionCardSlotGroupSchema,
@@ -161,9 +161,12 @@ const ConditionalLayerSchema = suretype(
     .required(),
 );
 
-const LayersSchema = v.array(
+const LayerSchema = suretype(
+  { name: 'LayerConfig' },
   v.anyOf([ModelVisualizationLayerSchema, ConditionalLayerSchema]),
 );
+
+const LayersSchema = suretype({ name: 'LayersConfig' }, v.array(LayerSchema));
 
 const GeneralSchema = suretype(
   { name: 'GeneralConfig' },

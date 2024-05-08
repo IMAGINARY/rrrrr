@@ -6,7 +6,7 @@ import { ref, computed, watchEffect, watch } from 'vue';
 import { useArrayFilter } from '@vueuse/core';
 
 import type { Marker } from '../../ts/stores/marker';
-import type { SlotConfig } from '../../ts/config/config-schema';
+import type { MarkerSlotConfig } from '../../ts/config/config-schema';
 
 import { SLOT_CIRCLE_DIAMETER } from '../../ts/builtin-config';
 import { useConfigStore } from '../../ts/stores/config';
@@ -22,7 +22,7 @@ const props = defineProps<{
   readonly secondaryLabel: string;
   readonly activeUrl: string;
   readonly inactiveUrl: string;
-  readonly slotConfig: DeepReadonly<SlotConfig>;
+  readonly slotConfig: DeepReadonly<MarkerSlotConfig>;
 }>();
 
 const { slotConfig } = props;

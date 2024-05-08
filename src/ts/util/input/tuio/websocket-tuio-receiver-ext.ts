@@ -17,8 +17,11 @@ export class WebsocketTuioReceiverExt extends TuioReceiver {
   protected _reconnectTimeout: number;
 
   protected _handleOscMessage: (oscMessage: osc.OscMessage) => void;
+
   protected _handleOscReady: () => void;
+
   protected _handleOscClose: (event: CustomEvent) => void;
+
   protected _handleOscError: (oscError: unknown) => void;
 
   constructor(url: string, reconnectIntervalMs: number) {
@@ -26,7 +29,7 @@ export class WebsocketTuioReceiverExt extends TuioReceiver {
     this._url = url;
     this._reconnectIntervalMs = reconnectIntervalMs;
     this._oscPort = new osc.WebSocketPort({
-      url: url,
+      url,
       metadata: true,
     });
 

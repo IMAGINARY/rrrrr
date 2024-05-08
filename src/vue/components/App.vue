@@ -61,6 +61,7 @@ watchEffect(() => {
   Object.assign(modelSimulator.parameters, {
     ...modelStore.transformedParameters,
   });
+  // eslint-disable-next-line no-console
   console.log('Update model parameters', modelSimulator.parameters);
 });
 
@@ -69,7 +70,6 @@ runner.tick();
 watch(
   () => appStore.isFullscreen,
   (isFullscreen) => {
-    console.log('Fullscreen toogled');
     ignorePromise(
       isFullscreen
         ? document.documentElement.requestFullscreen()
@@ -114,7 +114,9 @@ watchEffect(() => {
   else runner.pause();
 });
 
-const modelVisualizations = ref<Array<typeof ModelVisualization>>([]);
+const modelVisualizations = ref(
+  new Array<InstanceType<typeof ModelVisualization>>(),
+);
 onMounted(() => {
   const tick = (deltaMs: DOMHighResTimeStamp) => {
     /**
@@ -135,9 +137,14 @@ onMounted(() => {
 
     const { record } = modelSimulator;
     modelStore.$patch({ record });
-    modelVisualizations.value.forEach((mv) =>
-      mv.update(deltaMs, deltaT, modelSimulator.record),
-    );
+    // FIXME: There seems to be a bug in type system for Vue.js components. The type is always `any`.
+    // eslint-disable-next-line no-lone-blocks
+    {
+      /* eslint-disable */
+      modelVisualizations.value.forEach((mv) =>
+        mv.update(deltaMs, deltaT, modelSimulator.record),
+      );
+    }
   };
   runner.on('tick', tick);
 });
@@ -156,15 +163,17 @@ onMounted(() => {
         '--app-height': BOARD_HEIGHT,
       }"
     >
-      <template v-for="layerConfig in config.layers">
+      <template v-for="(layerConfig, index) in config.layers">
         <ModelVisualization
           v-if="layerConfig === 'modelVisualization'"
           ref="modelVisualizations"
           class="model-visualization"
+          :key="index"
         />
         <ConditionalLayer
           v-if="layerConfig !== 'modelVisualization'"
           :layer-config="layerConfig"
+          :key="index"
         />
       </template>
       <ScoreTable class="score-top-left" />

@@ -98,7 +98,7 @@ export interface BasicSlotGroupConfig {
   type: 'basic';
   label: I18nConfig;
   assets: SlotGroupAssetConfig;
-  slots: MarkerSlotConfig[];
+  markerSlots: MarkerSlotConfig[];
   parameterTransformIds: string[];
 }
 
@@ -136,7 +136,7 @@ export interface EventCardSlotGroupConfig {
   cards: CardConfig[];
 }
 
-export type SlotGroup =
+export type SlotGroupConfig =
   | BasicSlotGroupConfig
   | ActionCardSlotGroupConfig
   | EventCardSlotGroupConfig;
@@ -147,7 +147,7 @@ export interface InteractionConfig {
   eventCardMaxDelayMs: number;
   eventCardMinDurationMs: number;
   eventCardMaxDurationMs: number;
-  slotGroups: SlotGroup[];
+  slotGroups: SlotGroupConfig[];
 }
 
 export type ModelVisualizationLayerConfig = 'modelVisualization';
@@ -156,6 +156,12 @@ export interface ConditionalLayerConfig {
   url: string;
   condition: string;
 }
+
+export type LayerConfig =
+  | ModelVisualizationLayerConfig
+  | ConditionalLayerConfig;
+
+export type LayersConfig = LayerConfig[];
 
 export interface Config {
   general: GeneralConfig;
@@ -169,5 +175,5 @@ export interface Config {
   };
   parameterTransforms: ParameterTransformConfig[];
   interaction: InteractionConfig;
-  layers: (ModelVisualizationLayerConfig | ConditionalLayerConfig)[];
+  layers: LayersConfig;
 }

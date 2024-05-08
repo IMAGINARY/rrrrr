@@ -179,6 +179,7 @@ class CircularEconomyModel extends Model<
 
   // eslint-disable-next-line class-methods-use-this
   public evaluate(stocks: Stocks, parameters: Parameters, t: number): Record {
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const {
       capacityOfNaturalResources,
       capacityOfNewlyProducedPhones,
@@ -407,6 +408,7 @@ class CircularEconomyModel extends Model<
 
   // eslint-disable-next-line class-methods-use-this
   public accumulateFlowsPerStock(flows: Flows): Stocks {
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const {
       abandon,
       acquireNewlyProduced,

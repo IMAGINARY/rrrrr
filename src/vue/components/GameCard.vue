@@ -10,7 +10,7 @@ const props = defineProps<{
   active: boolean;
 }>();
 
-const { toAssetUrl, extractAssetPosition } = useConfigStore();
+const { toAssetUrl } = useConfigStore();
 const appStore = useAppStore();
 
 const assetUrl = computed(() => toAssetUrl(props.url));

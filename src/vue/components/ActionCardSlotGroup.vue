@@ -35,14 +35,9 @@ const props = defineProps<{
 }>();
 const { slotGroupConfig } = props;
 
-const {
-  config: {
-    general: { primaryLanguage, secondaryLanguage },
-    interaction: { actionCardDelayMs },
-  },
-} = useConfigStore();
-
-const { getPrimary, getSecondary } = useConfigStore();
+const configStore = useConfigStore();
+const { actionCardDelayMs } = configStore.config.interaction;
+const { getPrimary, getSecondary } = configStore;
 
 const primaryLabel = getPrimary(slotGroupConfig.label);
 const secondaryLabel = getSecondary(slotGroupConfig.label);
@@ -72,6 +67,7 @@ slotsWithCard.forEach((slotWithCard) => {
   watch(
     slotWithCard.active,
     (active) => {
+      /* eslint-disable no-param-reassign */
       const { assignment } = slotWithCard;
       if (!active) {
         if (assignment.value !== null) {
@@ -100,15 +96,13 @@ slotsWithCard.forEach((slotWithCard) => {
             assignment.value.state.setActive(slotWithCard.active.value);
           }, actionCardDelayMs);
         }
-      } else {
-        if (assignment.value !== null) {
-          const { state } = assignment.value;
-          console.log(state);
-          console.log(
-            `Activating ${state.id} at action card slot ${slotWithCard.slotConfig.cardSlot.id}`,
-          );
-          state.setActive(true);
-        }
+      } else if (assignment.value !== null) {
+        const { state } = assignment.value;
+        console.log(state);
+        console.log(
+          `Activating ${state.id} at action card slot ${slotWithCard.slotConfig.cardSlot.id}`,
+        );
+        state.setActive(true);
       }
     },
     { immediate: true },

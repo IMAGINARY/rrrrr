@@ -1,11 +1,18 @@
+import { strict as assert } from 'assert';
 import yaml from 'js-yaml';
 import deepmerge from 'deepmerge';
+
+import type { SafeResult } from '../util/type-helpers';
+
 import {
   validateConfig,
   type ReadonlyConfig,
   type ValidationIssue,
 } from './config-schema';
-import type { SafeResult } from '../util/type-helpers';
+import {
+  checkIdUniqueness,
+  DuplicateIdError,
+} from './config-additional-checks';
 
 function overwriteMerge<T>(destination: unknown, source: T): T {
   return source;
@@ -38,7 +45,7 @@ export class ConfigLoader {
       ReadonlyConfig,
       {
         config: { merged: object; segments: [URL, object][] };
-        error: ValidationIssue;
+        error: ValidationIssue | DuplicateIdError;
       }
     >
   > {
@@ -60,7 +67,13 @@ export class ConfigLoader {
         error: { config: { merged, segments }, error: validationResult.error },
       };
 
-    return { ok: true, data: validationResult.data as ReadonlyConfig };
+    try {
+      checkIdUniqueness(validationResult.data);
+      return { ok: true, data: validationResult.data as ReadonlyConfig };
+    } catch (error) {
+      assert(error instanceof DuplicateIdError);
+      return { ok: false, error: { config: { merged, segments }, error } };
+    }
   }
 
   static async load(...urls: URL[]): Promise<ReadonlyConfig> {
