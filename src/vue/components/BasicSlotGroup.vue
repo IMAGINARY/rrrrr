@@ -36,7 +36,7 @@ watchEffect(() =>
 <template>
   <div :data-slot-group-id="slotGroupConfig.id">
     <MarkerSlot
-      v-for="slotConfig in slotGroupConfig.slots"
+      v-for="slotConfig in slotGroupConfig.markerSlots"
       :key="slotConfig.id"
       :slot-group-id="slotGroupConfig.id"
       :primary-label="primaryLabel"
