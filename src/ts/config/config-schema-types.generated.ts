@@ -11,21 +11,25 @@ export interface I18nConfig {
   [key: string]: string;
 }
 
+export interface ScoreLabelsConfig {
+  circularity: I18nConfig;
+  coverage: I18nConfig;
+}
+
+export interface AutoResetConfig {
+  timeoutSeconds: number;
+  condition: string;
+  title: I18nConfig;
+  description: I18nConfig;
+}
+
 export interface GeneralConfig {
   assetBaseDir: string;
   primaryLanguage: string;
   secondaryLanguage: string;
   description: I18nConfig;
-  scoreLabels: {
-    circularity: I18nConfig;
-    coverage: I18nConfig;
-  };
-  autoReset: {
-    timeoutSeconds: number;
-    condition: string;
-    title: I18nConfig;
-    description: I18nConfig;
-  };
+  scoreLabels: ScoreLabelsConfig;
+  autoReset: AutoResetConfig;
 }
 
 export interface InitialParametersConfig {
@@ -72,18 +76,28 @@ export interface InitialStocksConfig {
   supplyOfRepairedPhones: number;
 }
 
+export interface ModelConfig {
+  initialParameters: InitialParametersConfig;
+  initialStocks: InitialStocksConfig;
+}
+
+export interface SimulationConfig {
+  deltaPerSecond: number;
+  maxStepSize: number;
+}
+
 export interface ParameterTransformConfig {
   id: string;
   script: string;
 }
 
+export interface AssetUrlObjectConfig {
+  url: string;
+}
+
 export interface SlotGroupAssetConfig {
-  markerSlotActive: {
-    url: string;
-  };
-  markerSlotInactive: {
-    url: string;
-  };
+  markerSlotActive: AssetUrlObjectConfig;
+  markerSlotInactive: AssetUrlObjectConfig;
 }
 
 export interface MarkerSlotConfig {
@@ -109,6 +123,11 @@ export interface CardSlotConfig {
   angle: number;
 }
 
+export interface ActionCardSlotGroupSlotConfig {
+  markerSlot: MarkerSlotConfig;
+  cardSlot: CardSlotConfig;
+}
+
 export interface CardConfig {
   parameterTransformId: string;
   url: string;
@@ -119,10 +138,7 @@ export interface ActionCardSlotGroupConfig {
   type: 'action-card';
   label: I18nConfig;
   assets: SlotGroupAssetConfig;
-  slots: {
-    markerSlot: MarkerSlotConfig;
-    cardSlot: CardSlotConfig;
-  }[];
+  slots: ActionCardSlotGroupSlotConfig[];
   cards: CardConfig[];
 }
 
@@ -165,14 +181,8 @@ export type LayersConfig = LayerConfig[];
 
 export interface Config {
   general: GeneralConfig;
-  model: {
-    initialParameters: InitialParametersConfig;
-    initialStocks: InitialStocksConfig;
-  };
-  simulation: {
-    deltaPerSecond: number;
-    maxStepSize: number;
-  };
+  model: ModelConfig;
+  simulation: SimulationConfig;
   parameterTransforms: ParameterTransformConfig[];
   interaction: InteractionConfig;
   layers: LayersConfig;

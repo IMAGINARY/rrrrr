@@ -1,10 +1,10 @@
 {
-  "name": "circular-economy",
-  "version": "0.0.0",
+  "name": "rrrrr",
+  "version": "1.0.0",
   "description": "An exhibit simulating certain aspects of a circular economy",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IMAGINARY/circular-economy.git"
+    "url": "git+https://github.com/IMAGINARY/rrrrr.git"
   },
   "author": {
     "name": "Christian Stussak",
@@ -12,9 +12,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/IMAGINARY/circular-economy/issues"
+    "url": "https://github.com/IMAGINARY/rrrrr/issues"
   },
-  "homepage": "https://github.com/IMAGINARY/circular-economy#readme",
+  "homepage": "https://imaginary.github.io/rrrrr/index.html",
   "source": [
     "src/html/index.html"
   ],
@@ -74,7 +74,8 @@
     "stylelint-config-prettier-scss": "^1.0.0",
     "stylelint-config-standard": "^36.0.0",
     "stylelint-config-standard-scss": "^13.0.0",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "wetzel": "^0.2.3"
   },
   "@parcel/resolver-default": {
     "packageExports": true
@@ -111,12 +112,13 @@
     "fix:styles": "stylelint --fix 'src/{**/*,*}.{css,scss}'",
     "generate": "npm-run-all -s -c generate:**",
     "generate:config-schema": "tsx ./tools/generate-config-types-and-schema.ts",
+    "generate:doc": "wetzel specs/config-schema.generated.json > docs/config-schema.md; prettier --write docs/config-schema.md",
     "generate:model-class": "npm-run-all -s convert-insightmaker-model generate:config-schema",
     "check-updates": "npm-check-updates",
     "convert-insightmaker-model": "tsx ./tools/convert-from-insight-maker.ts < src/insight-maker/CircularEconomyOfSmartPhones.InsightMaker > ./src/ts/circular-economy-model.ts; prettier --write ./src/ts/circular-economy-model.ts",
-    "udp-websocket-bridge": "npm run udp-websocket-bridge:node",
-    "udp-websocket-bridge:websocat": "websocat -E -b ws-l:127.0.0.1:3339 udp-l:127.0.0.1:3333",
-    "udp-websocket-bridge:node": "tsx ./tools/udp-websocket-bridge.ts"
+    "udp-websocket-proxy": "npm run udp-websocket-proxy:node",
+    "udp-websocket-proxy:websocat": "websocat -E -b ws-l:127.0.0.1:3339 udp-l:127.0.0.1:3333",
+    "udp-websocket-proxy:node": "tsx ./tools/udp-websocket-bridge.ts"
   },
   "dependencies": {
     "@fontsource/jost": "^5.0.17",

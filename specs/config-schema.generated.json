@@ -1,0 +1,633 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Schema of the app configuration",
+  "type": "object",
+  "properties": {
+    "general": {
+      "$ref": "#/definitions/GeneralConfig"
+    },
+    "model": {
+      "$ref": "#/definitions/ModelConfig"
+    },
+    "simulation": {
+      "$ref": "#/definitions/SimulationConfig"
+    },
+    "parameterTransforms": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ParameterTransformConfig"
+      }
+    },
+    "interaction": {
+      "$ref": "#/definitions/InteractionConfig"
+    },
+    "layers": {
+      "$ref": "#/definitions/LayersConfig"
+    }
+  },
+  "required": [
+    "general",
+    "model",
+    "simulation",
+    "parameterTransforms",
+    "interaction",
+    "layers"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "I18nConfig": {
+      "type": "object",
+      "title": "Internationalized text",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ScoreLabelsConfig": {
+      "type": "object",
+      "title": "Score labels",
+      "properties": {
+        "circularity": {
+          "$ref": "#/definitions/I18nConfig"
+        },
+        "coverage": {
+          "$ref": "#/definitions/I18nConfig"
+        }
+      },
+      "required": ["circularity", "coverage"],
+      "additionalProperties": false
+    },
+    "AutoResetConfig": {
+      "type": "object",
+      "title": "Auto reset",
+      "properties": {
+        "timeoutSeconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "condition": {
+          "type": "string"
+        },
+        "title": {
+          "$ref": "#/definitions/I18nConfig"
+        },
+        "description": {
+          "$ref": "#/definitions/I18nConfig"
+        }
+      },
+      "required": ["timeoutSeconds", "condition", "title", "description"],
+      "additionalProperties": false
+    },
+    "GeneralConfig": {
+      "type": "object",
+      "title": "General configuration",
+      "properties": {
+        "assetBaseDir": {
+          "type": "string"
+        },
+        "primaryLanguage": {
+          "type": "string"
+        },
+        "secondaryLanguage": {
+          "type": "string"
+        },
+        "description": {
+          "$ref": "#/definitions/I18nConfig"
+        },
+        "scoreLabels": {
+          "$ref": "#/definitions/ScoreLabelsConfig"
+        },
+        "autoReset": {
+          "$ref": "#/definitions/AutoResetConfig"
+        }
+      },
+      "required": [
+        "assetBaseDir",
+        "primaryLanguage",
+        "secondaryLanguage",
+        "description",
+        "scoreLabels",
+        "autoReset"
+      ],
+      "additionalProperties": false
+    },
+    "InitialParametersConfig": {
+      "type": "object",
+      "title": "Initial parameter values",
+      "properties": {
+        "abandonExcessRate": {
+          "type": "number"
+        },
+        "abandonRate": {
+          "type": "number"
+        },
+        "acquireRate": {
+          "type": "number"
+        },
+        "breakRate": {
+          "type": "number"
+        },
+        "capacityAdjustmentRate": {
+          "type": "number"
+        },
+        "disposeIncentive": {
+          "type": "number"
+        },
+        "disposeRate": {
+          "type": "number"
+        },
+        "landfillIncentive": {
+          "type": "number"
+        },
+        "landfillRate": {
+          "type": "number"
+        },
+        "naturalResourceMiningRate": {
+          "type": "number"
+        },
+        "naturalResourcesIncentive": {
+          "type": "number"
+        },
+        "newPhoneProductionRate": {
+          "type": "number"
+        },
+        "newlyProducedPhoneIncentive": {
+          "type": "number"
+        },
+        "numberOfUsers": {
+          "type": "number"
+        },
+        "phonesPerUserGoal": {
+          "type": "number"
+        },
+        "recycleRate": {
+          "type": "number"
+        },
+        "recyclingIncentive": {
+          "type": "number"
+        },
+        "refurbishmentIncentive": {
+          "type": "number"
+        },
+        "refurbishmentRate": {
+          "type": "number"
+        },
+        "repairIncentive": {
+          "type": "number"
+        },
+        "repairRate": {
+          "type": "number"
+        },
+        "reuseIncentive": {
+          "type": "number"
+        },
+        "userdata": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "abandonExcessRate",
+        "abandonRate",
+        "acquireRate",
+        "breakRate",
+        "capacityAdjustmentRate",
+        "disposeIncentive",
+        "disposeRate",
+        "landfillIncentive",
+        "landfillRate",
+        "naturalResourceMiningRate",
+        "naturalResourcesIncentive",
+        "newPhoneProductionRate",
+        "newlyProducedPhoneIncentive",
+        "numberOfUsers",
+        "phonesPerUserGoal",
+        "recycleRate",
+        "recyclingIncentive",
+        "refurbishmentIncentive",
+        "refurbishmentRate",
+        "repairIncentive",
+        "repairRate",
+        "reuseIncentive",
+        "userdata"
+      ],
+      "additionalProperties": false
+    },
+    "InitialStocksConfig": {
+      "type": "object",
+      "title": "Initial stock values",
+      "properties": {
+        "capacityOfNaturalResources": {
+          "type": "number"
+        },
+        "capacityOfNewlyProducedPhones": {
+          "type": "number"
+        },
+        "capacityOfPhonesInUse": {
+          "type": "number"
+        },
+        "capacityOfRecycledMaterials": {
+          "type": "number"
+        },
+        "capacityOfRefurbishedPhones": {
+          "type": "number"
+        },
+        "capacityOfRepairedPhones": {
+          "type": "number"
+        },
+        "phonesInUse": {
+          "type": "number"
+        },
+        "supplyOfBrokenPhones": {
+          "type": "number"
+        },
+        "supplyOfDisposedPhones": {
+          "type": "number"
+        },
+        "supplyOfHibernatingPhones": {
+          "type": "number"
+        },
+        "supplyOfNaturalResources": {
+          "type": "number"
+        },
+        "supplyOfNewlyProducedPhones": {
+          "type": "number"
+        },
+        "supplyOfRecycledMaterials": {
+          "type": "number"
+        },
+        "supplyOfRefurbishedPhones": {
+          "type": "number"
+        },
+        "supplyOfRepairedPhones": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "capacityOfNaturalResources",
+        "capacityOfNewlyProducedPhones",
+        "capacityOfPhonesInUse",
+        "capacityOfRecycledMaterials",
+        "capacityOfRefurbishedPhones",
+        "capacityOfRepairedPhones",
+        "phonesInUse",
+        "supplyOfBrokenPhones",
+        "supplyOfDisposedPhones",
+        "supplyOfHibernatingPhones",
+        "supplyOfNaturalResources",
+        "supplyOfNewlyProducedPhones",
+        "supplyOfRecycledMaterials",
+        "supplyOfRefurbishedPhones",
+        "supplyOfRepairedPhones"
+      ],
+      "additionalProperties": false
+    },
+    "ModelConfig": {
+      "type": "object",
+      "title": "Model configuration",
+      "properties": {
+        "initialParameters": {
+          "$ref": "#/definitions/InitialParametersConfig"
+        },
+        "initialStocks": {
+          "$ref": "#/definitions/InitialStocksConfig"
+        }
+      },
+      "required": ["initialParameters", "initialStocks"],
+      "additionalProperties": false
+    },
+    "SimulationConfig": {
+      "type": "object",
+      "title": "Simulation configuration",
+      "properties": {
+        "deltaPerSecond": {
+          "type": "number"
+        },
+        "maxStepSize": {
+          "type": "number"
+        }
+      },
+      "required": ["deltaPerSecond", "maxStepSize"],
+      "additionalProperties": false
+    },
+    "ParameterTransformConfig": {
+      "title": "Parameter transformation",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "script": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "script"],
+      "additionalProperties": false
+    },
+    "AssetUrlObjectConfig": {
+      "type": "object",
+      "title": "Asset URL object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "_x[+-]?[0-9]+_y[+-]?[0-9]+\\.[a-zA-Z0-9]+$"
+        }
+      },
+      "required": ["url"],
+      "additionalProperties": false
+    },
+    "SlotGroupAssetConfig": {
+      "type": "object",
+      "title": "Slot group assets",
+      "properties": {
+        "markerSlotActive": {
+          "$ref": "#/definitions/AssetUrlObjectConfig"
+        },
+        "markerSlotInactive": {
+          "$ref": "#/definitions/AssetUrlObjectConfig"
+        }
+      },
+      "required": ["markerSlotActive", "markerSlotInactive"],
+      "additionalProperties": false
+    },
+    "MarkerSlotConfig": {
+      "type": "object",
+      "title": "Marker slot",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "angle": {
+          "type": "number"
+        }
+      },
+      "required": ["id", "x", "y", "angle"],
+      "additionalProperties": false
+    },
+    "BasicSlotGroupConfig": {
+      "type": "object",
+      "title": "Basic slot group",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^((?!internal).)*$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["basic"]
+        },
+        "label": {
+          "$ref": "#/definitions/I18nConfig"
+        },
+        "assets": {
+          "$ref": "#/definitions/SlotGroupAssetConfig"
+        },
+        "markerSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MarkerSlotConfig"
+          }
+        },
+        "parameterTransformIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "label",
+        "assets",
+        "markerSlots",
+        "parameterTransformIds"
+      ],
+      "additionalProperties": false
+    },
+    "CardSlotConfig": {
+      "type": "object",
+      "title": "Card slot",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "angle": {
+          "type": "number"
+        }
+      },
+      "required": ["id", "x", "y", "angle"],
+      "additionalProperties": false
+    },
+    "ActionCardSlotGroupSlotConfig": {
+      "type": "object",
+      "title": "Action card slot group slot",
+      "properties": {
+        "markerSlot": {
+          "$ref": "#/definitions/MarkerSlotConfig"
+        },
+        "cardSlot": {
+          "$ref": "#/definitions/CardSlotConfig"
+        }
+      },
+      "required": ["markerSlot", "cardSlot"],
+      "additionalProperties": false
+    },
+    "CardConfig": {
+      "type": "object",
+      "title": "Card",
+      "properties": {
+        "parameterTransformId": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": ["parameterTransformId", "url"],
+      "additionalProperties": false
+    },
+    "ActionCardSlotGroupConfig": {
+      "type": "object",
+      "title": "Action card slot group",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^((?!internal).)*$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["action-card"]
+        },
+        "label": {
+          "$ref": "#/definitions/I18nConfig"
+        },
+        "assets": {
+          "$ref": "#/definitions/SlotGroupAssetConfig"
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionCardSlotGroupSlotConfig"
+          }
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardConfig"
+          }
+        }
+      },
+      "required": ["id", "type", "label", "assets", "slots", "cards"],
+      "additionalProperties": false
+    },
+    "EventCardSlotGroupConfig": {
+      "type": "object",
+      "title": "Event card slot group",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^((?!internal).)*$"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["event-card"]
+        },
+        "label": {
+          "$ref": "#/definitions/I18nConfig"
+        },
+        "assets": {
+          "$ref": "#/definitions/SlotGroupAssetConfig"
+        },
+        "markerSlot": {
+          "$ref": "#/definitions/MarkerSlotConfig"
+        },
+        "cardSlots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardSlotConfig"
+          }
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardConfig"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "label",
+        "assets",
+        "markerSlot",
+        "cardSlots",
+        "cards"
+      ],
+      "additionalProperties": false
+    },
+    "SlotGroupConfig": {
+      "title": "Slot group",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BasicSlotGroupConfig"
+        },
+        {
+          "$ref": "#/definitions/ActionCardSlotGroupConfig"
+        },
+        {
+          "$ref": "#/definitions/EventCardSlotGroupConfig"
+        }
+      ]
+    },
+    "InteractionConfig": {
+      "type": "object",
+      "title": "Interactive elements",
+      "properties": {
+        "actionCardDelayMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "eventCardMinDelayMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "eventCardMaxDelayMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "eventCardMinDurationMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "eventCardMaxDurationMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "slotGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SlotGroupConfig"
+          }
+        }
+      },
+      "required": [
+        "actionCardDelayMs",
+        "eventCardMinDelayMs",
+        "eventCardMaxDelayMs",
+        "eventCardMinDurationMs",
+        "eventCardMaxDurationMs",
+        "slotGroups"
+      ],
+      "additionalProperties": false
+    },
+    "ModelVisualizationLayerConfig": {
+      "type": "string",
+      "title": "Model visualization layer",
+      "enum": ["modelVisualization"]
+    },
+    "ConditionalLayerConfig": {
+      "title": "Conditionally shown illustration layer",
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "pattern": "_x[+-]?[0-9]+_y[+-]?[0-9]+\\.[a-zA-Z0-9]+$"
+        },
+        "condition": {
+          "type": "string"
+        }
+      },
+      "required": ["url", "condition"],
+      "additionalProperties": false
+    },
+    "LayerConfig": {
+      "title": "Illustration or visualization layer",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ModelVisualizationLayerConfig"
+        },
+        {
+          "$ref": "#/definitions/ConditionalLayerConfig"
+        }
+      ]
+    },
+    "LayersConfig": {
+      "type": "array",
+      "title": "Layers of illustrations and visualizations",
+      "items": {
+        "$ref": "#/definitions/LayerConfig"
+      }
+    }
+  }
+}

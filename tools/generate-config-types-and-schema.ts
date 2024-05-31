@@ -16,7 +16,8 @@ import {
 
 const CONFIG_SCHEMA_TYPESCRIPT_FILENAME =
   'src/ts/config/config-schema-types.generated.ts';
-const CONFIG_SCHEMA_YAML_FILENAME = 'src/yaml/config-schema.generated.yaml';
+const CONFIG_SCHEMA_JSON_FILENAME = 'specs/config-schema.generated.json';
+const CONFIG_SCHEMA_YAML_FILENAME = 'specs/config-schema.generated.yaml';
 
 async function main() {
   const jsonSchemeReader = getJsonSchemaReader();
@@ -51,7 +52,7 @@ async function main() {
   );
   writeFileSync(CONFIG_SCHEMA_TYPESCRIPT_FILENAME, formattedTypeScriptString);
 
-  // generate and export JSON schema, but use YAML syntax
+  // generate JSON schema
   const { definitions: jsonSchemaDefinitions } = inputJsonSchema;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -68,22 +69,35 @@ async function main() {
   );
 
   const outputJsonSchema = {
-    $schema: 'http://json-schema.org/draft-07/schema#',
+    $schema: 'http://json-schema.org/draft-07/schema',
     title: CONFIG_SCHEMA_NAME,
     ...configDefinition,
     definitions: jsonSchemaDefinitionsWithoutConfig,
   };
 
-  const outputJsonSchemaString = yaml.dump(outputJsonSchema);
+  // Export JSON schema in JSON syntax
+  const outputJsonSchemaJsonString = JSON.stringify(outputJsonSchema, null, 2);
+
+  const prettierJsonOptions =
+    (await prettier.resolveConfig(CONFIG_SCHEMA_JSON_FILENAME)) ?? undefined;
+  const formattedJsonSchemaJsonString = await prettier.format(
+    outputJsonSchemaJsonString,
+    { parser: 'json', ...prettierJsonOptions },
+  );
+
+  writeFileSync(CONFIG_SCHEMA_JSON_FILENAME, formattedJsonSchemaJsonString);
+
+  // Export JSON schema in YAML syntax
+  const outputJsonSchemaYamlString = yaml.dump(outputJsonSchema);
 
   const prettierYamlOptions =
     (await prettier.resolveConfig(CONFIG_SCHEMA_YAML_FILENAME)) ?? undefined;
-  const formattedJsonSchemaString = await prettier.format(
-    outputJsonSchemaString,
+  const formattedJsonSchemaYamlString = await prettier.format(
+    outputJsonSchemaYamlString,
     { parser: 'yaml', ...prettierYamlOptions },
   );
 
-  writeFileSync(CONFIG_SCHEMA_YAML_FILENAME, formattedJsonSchemaString);
+  writeFileSync(CONFIG_SCHEMA_YAML_FILENAME, formattedJsonSchemaYamlString);
 }
 
 void main();

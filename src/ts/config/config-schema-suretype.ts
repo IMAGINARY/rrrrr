@@ -3,17 +3,18 @@ import { stockIds, parameterIds } from '../circular-economy-model';
 
 const POSITIONAL_ASSET_REGEX = /_x[+-]?[0-9]+_y[+-]?[0-9]+\.[a-zA-Z0-9]+$/g;
 const AssetUrlSchema = v.string().matches(POSITIONAL_ASSET_REGEX);
-const AssetUrlObjectSchema = v
-  .object({ url: AssetUrlSchema.required() })
-  .additional(false);
+const AssetUrlObjectSchema = suretype(
+  { name: 'AssetUrlObjectConfig', title: 'Asset URL object' },
+  v.object({ url: AssetUrlSchema.required() }).additional(false),
+);
 
 const I18nSchema = suretype(
-  { name: 'I18nConfig' },
+  { name: 'I18nConfig', title: 'Internationalized text' },
   v.object({}).additional(v.string()),
 );
 
 const ParameterTransformSchema = suretype(
-  { name: 'ParameterTransformConfig' },
+  { name: 'ParameterTransformConfig', title: 'Parameter transformation' },
   v
     .object({ id: v.string().required(), script: v.string().required() })
     .additional(false)
@@ -23,7 +24,7 @@ const ParameterTransformSchema = suretype(
 const ParameterTransformsSchema = v.array(ParameterTransformSchema);
 
 const InitialParametersSchema = suretype(
-  { name: 'InitialParametersConfig' },
+  { name: 'InitialParametersConfig', title: 'Initial parameter values' },
   v
     .object(
       Object.fromEntries(parameterIds.map((p) => [p, v.number().required()])),
@@ -32,14 +33,14 @@ const InitialParametersSchema = suretype(
 );
 
 const InitialStocksSchema = suretype(
-  { name: 'InitialStocksConfig' },
+  { name: 'InitialStocksConfig', title: 'Initial stock values' },
   v
     .object(Object.fromEntries(stockIds.map((p) => [p, v.number().required()])))
     .additional(false),
 );
 
 const MarkerSlotSchema = suretype(
-  { name: 'MarkerSlotConfig' },
+  { name: 'MarkerSlotConfig', title: 'Marker slot' },
   v
     .object({
       id: v.string().required(),
@@ -51,7 +52,7 @@ const MarkerSlotSchema = suretype(
 );
 
 const CardSlotSchema = suretype(
-  { name: 'CardSlotConfig' },
+  { name: 'CardSlotConfig', title: 'Card slot' },
   v
     .object({
       id: v.string().required(),
@@ -63,7 +64,7 @@ const CardSlotSchema = suretype(
 );
 
 const CardSchema = suretype(
-  { name: 'CardConfig' },
+  { name: 'CardConfig', title: 'Card' },
   v
     .object({
       parameterTransformId: v.string().required(),
@@ -75,7 +76,7 @@ const CardSchema = suretype(
 const SlotGroupIdSchema = v.string().matches(/^((?!internal).)*$/g);
 
 const SlotGroupAssetSchema = suretype(
-  { name: 'SlotGroupAssetConfig' },
+  { name: 'SlotGroupAssetConfig', title: 'Slot group assets' },
   v
     .object({
       markerSlotActive: AssetUrlObjectSchema.required(),
@@ -85,7 +86,7 @@ const SlotGroupAssetSchema = suretype(
 );
 
 const BasicSlotGroupSchema = suretype(
-  { name: 'BasicSlotGroupConfig' },
+  { name: 'BasicSlotGroupConfig', title: 'Basic slot group' },
   v
     .object({
       id: SlotGroupIdSchema.required(),
@@ -98,31 +99,35 @@ const BasicSlotGroupSchema = suretype(
     .additional(false),
 );
 
+const ActionCardSlotGroupSlotSchema = suretype(
+  {
+    name: 'ActionCardSlotGroupSlotConfig',
+    title: 'Action card slot group slot',
+  },
+  v
+    .object({
+      markerSlot: MarkerSlotSchema.required(),
+      cardSlot: CardSlotSchema.required(),
+    })
+    .additional(false),
+);
+
 const ActionCardSlotGroupSchema = suretype(
-  { name: 'ActionCardSlotGroupConfig' },
+  { name: 'ActionCardSlotGroupConfig', title: 'Action card slot group' },
   v
     .object({
       id: SlotGroupIdSchema.required(),
       type: v.string().enum('action-card').required(),
       label: I18nSchema.required(),
       assets: SlotGroupAssetSchema.required(),
-      slots: v
-        .array(
-          v
-            .object({
-              markerSlot: MarkerSlotSchema.required(),
-              cardSlot: CardSlotSchema.required(),
-            })
-            .additional(false),
-        )
-        .required(),
+      slots: v.array(ActionCardSlotGroupSlotSchema).required(),
       cards: v.array(CardSchema).required(),
     })
     .additional(false),
 );
 
 const EventCardSlotGroupSchema = suretype(
-  { name: 'EventCardSlotGroupConfig' },
+  { name: 'EventCardSlotGroupConfig', title: 'Event card slot group' },
   v
     .object({
       id: SlotGroupIdSchema.required(),
@@ -137,7 +142,7 @@ const EventCardSlotGroupSchema = suretype(
 );
 
 const SlotGroupSchema = suretype(
-  { name: 'SlotGroupConfig' },
+  { name: 'SlotGroupConfig', title: 'Slot group' },
   v.anyOf([
     BasicSlotGroupSchema,
     ActionCardSlotGroupSchema,
@@ -146,12 +151,15 @@ const SlotGroupSchema = suretype(
 );
 
 const ModelVisualizationLayerSchema = suretype(
-  { name: 'ModelVisualizationLayerConfig' },
+  { name: 'ModelVisualizationLayerConfig', title: 'Model visualization layer' },
   v.string().enum('modelVisualization'),
 );
 
 const ConditionalLayerSchema = suretype(
-  { name: 'ConditionalLayerConfig' },
+  {
+    name: 'ConditionalLayerConfig',
+    title: 'Conditionally shown illustration layer',
+  },
   v
     .object({
       url: AssetUrlSchema.required(),
@@ -162,42 +170,53 @@ const ConditionalLayerSchema = suretype(
 );
 
 const LayerSchema = suretype(
-  { name: 'LayerConfig' },
+  { name: 'LayerConfig', title: 'Illustration or visualization layer' },
   v.anyOf([ModelVisualizationLayerSchema, ConditionalLayerSchema]),
 );
 
-const LayersSchema = suretype({ name: 'LayersConfig' }, v.array(LayerSchema));
+const LayersSchema = suretype(
+  { name: 'LayersConfig', title: 'Layers of illustrations and visualizations' },
+  v.array(LayerSchema),
+);
+
+const ScoreLabelsSchema = suretype(
+  { name: 'ScoreLabelsConfig', title: 'Score labels' },
+  v
+    .object({
+      circularity: I18nSchema.required(),
+      coverage: I18nSchema.required(),
+    })
+    .additional(false),
+);
+
+const AutoResetSchema = suretype(
+  { name: 'AutoResetConfig', title: 'Auto reset' },
+  v
+    .object({
+      timeoutSeconds: v.number().gte(0).required(),
+      condition: v.string().required(),
+      title: I18nSchema.required(),
+      description: I18nSchema.required(),
+    })
+    .additional(false),
+);
 
 const GeneralSchema = suretype(
-  { name: 'GeneralConfig' },
+  { name: 'GeneralConfig', title: 'General configuration' },
   v
     .object({
       assetBaseDir: v.string().required(),
       primaryLanguage: v.string().required(),
       secondaryLanguage: v.string().required(),
       description: I18nSchema.required(),
-      scoreLabels: v
-        .object({
-          circularity: I18nSchema.required(),
-          coverage: I18nSchema.required(),
-        })
-        .additional(false)
-        .required(),
-      autoReset: v
-        .object({
-          timeoutSeconds: v.number().gte(0).required(),
-          condition: v.string().required(),
-          title: I18nSchema.required(),
-          description: I18nSchema.required(),
-        })
-        .additional(false)
-        .required(),
+      scoreLabels: ScoreLabelsSchema.required(),
+      autoReset: AutoResetSchema.required(),
     })
     .additional(false),
 );
 
 const InteractionSchema = suretype(
-  { name: 'InteractionConfig' },
+  { name: 'InteractionConfig', title: 'Interactive elements' },
   v
     .object({
       actionCardDelayMs: v.number().gte(0).required(),
@@ -210,27 +229,35 @@ const InteractionSchema = suretype(
     .additional(false),
 );
 
+const ModelConfigSchema = suretype(
+  { name: 'ModelConfig', title: 'Model configuration' },
+  v
+    .object({
+      initialParameters: InitialParametersSchema.required(),
+      initialStocks: InitialStocksSchema.required(),
+    })
+    .additional(false),
+);
+
+const SimulationConfigSchema = suretype(
+  { name: 'SimulationConfig', title: 'Simulation configuration' },
+  v
+    .object({
+      deltaPerSecond: v.number().required(),
+      maxStepSize: v.number().required(),
+    })
+    .additional(false),
+);
+
 const CONFIG_SCHEMA_NAME = 'Config';
 
 const ConfigSchema = suretype(
-  { name: CONFIG_SCHEMA_NAME },
+  { name: CONFIG_SCHEMA_NAME, title: 'Schema of the app configuration' },
   v
     .object({
       general: GeneralSchema.required(),
-      model: v
-        .object({
-          initialParameters: InitialParametersSchema.required(),
-          initialStocks: InitialStocksSchema.required(),
-        })
-        .additional(false)
-        .required(),
-      simulation: v
-        .object({
-          deltaPerSecond: v.number().required(),
-          maxStepSize: v.number().required(),
-        })
-        .additional(false)
-        .required(),
+      model: ModelConfigSchema.required(),
+      simulation: SimulationConfigSchema.required(),
       parameterTransforms: ParameterTransformsSchema.required(),
       interaction: InteractionSchema.required(),
       layers: LayersSchema.required(),

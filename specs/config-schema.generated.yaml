@@ -1,31 +1,13 @@
-$schema: http://json-schema.org/draft-07/schema#
-title: Config
+$schema: http://json-schema.org/draft-07/schema
+title: Schema of the app configuration
 type: object
 properties:
   general:
     $ref: '#/definitions/GeneralConfig'
   model:
-    type: object
-    properties:
-      initialParameters:
-        $ref: '#/definitions/InitialParametersConfig'
-      initialStocks:
-        $ref: '#/definitions/InitialStocksConfig'
-    required:
-      - initialParameters
-      - initialStocks
-    additionalProperties: false
+    $ref: '#/definitions/ModelConfig'
   simulation:
-    type: object
-    properties:
-      deltaPerSecond:
-        type: number
-      maxStepSize:
-        type: number
-    required:
-      - deltaPerSecond
-      - maxStepSize
-    additionalProperties: false
+    $ref: '#/definitions/SimulationConfig'
   parameterTransforms:
     type: array
     items:
@@ -45,10 +27,43 @@ additionalProperties: false
 definitions:
   I18nConfig:
     type: object
+    title: Internationalized text
     additionalProperties:
       type: string
+  ScoreLabelsConfig:
+    type: object
+    title: Score labels
+    properties:
+      circularity:
+        $ref: '#/definitions/I18nConfig'
+      coverage:
+        $ref: '#/definitions/I18nConfig'
+    required:
+      - circularity
+      - coverage
+    additionalProperties: false
+  AutoResetConfig:
+    type: object
+    title: Auto reset
+    properties:
+      timeoutSeconds:
+        type: number
+        minimum: 0
+      condition:
+        type: string
+      title:
+        $ref: '#/definitions/I18nConfig'
+      description:
+        $ref: '#/definitions/I18nConfig'
+    required:
+      - timeoutSeconds
+      - condition
+      - title
+      - description
+    additionalProperties: false
   GeneralConfig:
     type: object
+    title: General configuration
     properties:
       assetBaseDir:
         type: string
@@ -59,34 +74,9 @@ definitions:
       description:
         $ref: '#/definitions/I18nConfig'
       scoreLabels:
-        type: object
-        properties:
-          circularity:
-            $ref: '#/definitions/I18nConfig'
-          coverage:
-            $ref: '#/definitions/I18nConfig'
-        required:
-          - circularity
-          - coverage
-        additionalProperties: false
+        $ref: '#/definitions/ScoreLabelsConfig'
       autoReset:
-        type: object
-        properties:
-          timeoutSeconds:
-            type: number
-            minimum: 0
-          condition:
-            type: string
-          title:
-            $ref: '#/definitions/I18nConfig'
-          description:
-            $ref: '#/definitions/I18nConfig'
-        required:
-          - timeoutSeconds
-          - condition
-          - title
-          - description
-        additionalProperties: false
+        $ref: '#/definitions/AutoResetConfig'
     required:
       - assetBaseDir
       - primaryLanguage
@@ -97,6 +87,7 @@ definitions:
     additionalProperties: false
   InitialParametersConfig:
     type: object
+    title: Initial parameter values
     properties:
       abandonExcessRate:
         type: number
@@ -171,6 +162,7 @@ definitions:
     additionalProperties: false
   InitialStocksConfig:
     type: object
+    title: Initial stock values
     properties:
       capacityOfNaturalResources:
         type: number
@@ -219,7 +211,32 @@ definitions:
       - supplyOfRefurbishedPhones
       - supplyOfRepairedPhones
     additionalProperties: false
+  ModelConfig:
+    type: object
+    title: Model configuration
+    properties:
+      initialParameters:
+        $ref: '#/definitions/InitialParametersConfig'
+      initialStocks:
+        $ref: '#/definitions/InitialStocksConfig'
+    required:
+      - initialParameters
+      - initialStocks
+    additionalProperties: false
+  SimulationConfig:
+    type: object
+    title: Simulation configuration
+    properties:
+      deltaPerSecond:
+        type: number
+      maxStepSize:
+        type: number
+    required:
+      - deltaPerSecond
+      - maxStepSize
+    additionalProperties: false
   ParameterTransformConfig:
+    title: Parameter transformation
     type: object
     properties:
       id:
@@ -230,33 +247,31 @@ definitions:
       - id
       - script
     additionalProperties: false
+  AssetUrlObjectConfig:
+    type: object
+    title: Asset URL object
+    properties:
+      url:
+        type: string
+        pattern: _x[+-]?[0-9]+_y[+-]?[0-9]+\.[a-zA-Z0-9]+$
+    required:
+      - url
+    additionalProperties: false
   SlotGroupAssetConfig:
     type: object
+    title: Slot group assets
     properties:
       markerSlotActive:
-        type: object
-        properties:
-          url:
-            type: string
-            pattern: _x[+-]?[0-9]+_y[+-]?[0-9]+\.[a-zA-Z0-9]+$
-        required:
-          - url
-        additionalProperties: false
+        $ref: '#/definitions/AssetUrlObjectConfig'
       markerSlotInactive:
-        type: object
-        properties:
-          url:
-            type: string
-            pattern: _x[+-]?[0-9]+_y[+-]?[0-9]+\.[a-zA-Z0-9]+$
-        required:
-          - url
-        additionalProperties: false
+        $ref: '#/definitions/AssetUrlObjectConfig'
     required:
       - markerSlotActive
       - markerSlotInactive
     additionalProperties: false
   MarkerSlotConfig:
     type: object
+    title: Marker slot
     properties:
       id:
         type: string
@@ -274,6 +289,7 @@ definitions:
     additionalProperties: false
   BasicSlotGroupConfig:
     type: object
+    title: Basic slot group
     properties:
       id:
         type: string
@@ -304,6 +320,7 @@ definitions:
     additionalProperties: false
   CardSlotConfig:
     type: object
+    title: Card slot
     properties:
       id:
         type: string
@@ -319,8 +336,21 @@ definitions:
       - 'y'
       - angle
     additionalProperties: false
+  ActionCardSlotGroupSlotConfig:
+    type: object
+    title: Action card slot group slot
+    properties:
+      markerSlot:
+        $ref: '#/definitions/MarkerSlotConfig'
+      cardSlot:
+        $ref: '#/definitions/CardSlotConfig'
+    required:
+      - markerSlot
+      - cardSlot
+    additionalProperties: false
   CardConfig:
     type: object
+    title: Card
     properties:
       parameterTransformId:
         type: string
@@ -332,6 +362,7 @@ definitions:
     additionalProperties: false
   ActionCardSlotGroupConfig:
     type: object
+    title: Action card slot group
     properties:
       id:
         type: string
@@ -347,16 +378,7 @@ definitions:
       slots:
         type: array
         items:
-          type: object
-          properties:
-            markerSlot:
-              $ref: '#/definitions/MarkerSlotConfig'
-            cardSlot:
-              $ref: '#/definitions/CardSlotConfig'
-          required:
-            - markerSlot
-            - cardSlot
-          additionalProperties: false
+          $ref: '#/definitions/ActionCardSlotGroupSlotConfig'
       cards:
         type: array
         items:
@@ -371,6 +393,7 @@ definitions:
     additionalProperties: false
   EventCardSlotGroupConfig:
     type: object
+    title: Event card slot group
     properties:
       id:
         type: string
@@ -403,12 +426,14 @@ definitions:
       - cards
     additionalProperties: false
   SlotGroupConfig:
+    title: Slot group
     anyOf:
       - $ref: '#/definitions/BasicSlotGroupConfig'
       - $ref: '#/definitions/ActionCardSlotGroupConfig'
       - $ref: '#/definitions/EventCardSlotGroupConfig'
   InteractionConfig:
     type: object
+    title: Interactive elements
     properties:
       actionCardDelayMs:
         type: number
@@ -439,9 +464,11 @@ definitions:
     additionalProperties: false
   ModelVisualizationLayerConfig:
     type: string
+    title: Model visualization layer
     enum:
       - modelVisualization
   ConditionalLayerConfig:
+    title: Conditionally shown illustration layer
     type: object
     properties:
       url:
@@ -454,10 +481,12 @@ definitions:
       - condition
     additionalProperties: false
   LayerConfig:
+    title: Illustration or visualization layer
     anyOf:
       - $ref: '#/definitions/ModelVisualizationLayerConfig'
       - $ref: '#/definitions/ConditionalLayerConfig'
   LayersConfig:
     type: array
+    title: Layers of illustrations and visualizations
     items:
       $ref: '#/definitions/LayerConfig'
