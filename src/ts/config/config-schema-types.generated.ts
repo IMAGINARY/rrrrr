@@ -171,6 +171,7 @@ export type ModelVisualizationLayerConfig = 'modelVisualization';
 export interface ConditionalLayerConfig {
   url: string;
   condition: string;
+  reset?: boolean;
 }
 
 export type LayerConfig =

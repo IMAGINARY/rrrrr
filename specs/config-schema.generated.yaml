@@ -476,6 +476,9 @@ definitions:
         pattern: _x[+-]?[0-9]+_y[+-]?[0-9]+\.[a-zA-Z0-9]+$
       condition:
         type: string
+      reset:
+        type: boolean
+        default: false
     required:
       - url
       - condition

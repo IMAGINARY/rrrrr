@@ -164,6 +164,7 @@ const ConditionalLayerSchema = suretype(
     .object({
       url: AssetUrlSchema.required(),
       condition: v.string().required(),
+      reset: v.boolean().default(false), // FIXME: Apply the default during config parsing
     })
     .additional(false)
     .required(),

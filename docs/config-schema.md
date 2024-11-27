@@ -288,10 +288,11 @@ Additional properties are not allowed.
 
 **`Conditionally shown illustration layer` Properties**
 
-|               | Type     | Description | Required     |
-| ------------- | -------- | ----------- | ------------ |
-| **url**       | `string` |             | &#10003; Yes |
-| **condition** | `string` |             | &#10003; Yes |
+|               | Type      | Description | Required             |
+| ------------- | --------- | ----------- | -------------------- |
+| **url**       | `string`  |             | &#10003; Yes         |
+| **condition** | `string`  |             | &#10003; Yes         |
+| **reset**     | `boolean` |             | No, default: `false` |
 
 Additional properties are not allowed.
 
@@ -305,6 +306,11 @@ Additional properties are not allowed.
 
 - **Type**: `string`
 - **Required**: &#10003; Yes
+
+### ConditionalLayerConfig.reset
+
+- **Type**: `boolean`
+- **Required**: No, default: `false`
 
 ---
 

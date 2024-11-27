@@ -18,18 +18,27 @@ const props = defineProps<{
 const { extractAssetPosition, toAssetUrl } = useConfigStore();
 const modelStore = useModelStore();
 
-function compileLayer({ condition, url }: ConditionalLayerConfig): {
+function compileLayer({ condition, url, reset }: ConditionalLayerConfig): {
   checkCondition: Condition<typeof modelStore.record>;
   condition: string;
   active: Ref<boolean>;
   url: URL;
   x: number;
   y: number;
+  reset: boolean;
 } {
   const resolvedUrl = toAssetUrl(url);
   const { x, y } = extractAssetPosition(resolvedUrl);
   const checkCondition = compile(condition);
-  const active = computed(() => checkCondition(modelStore.record));
+  const active = computed(() => {
+    // If the condition does not depend on the record (e.g. it only depends on some global state like the date),
+    // the reactive elements of modelStore.record will not be accessed and the condition will never be re-evaluated
+    // after the first run. Querying the timestamp of the record object ensures that the condition is re-evaluated
+    // whenever the simulation progresses.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { t } = modelStore.record;
+    return checkCondition(modelStore.record);
+  });
   return {
     checkCondition,
     condition,
@@ -37,6 +46,7 @@ function compileLayer({ condition, url }: ConditionalLayerConfig): {
     url: resolvedUrl,
     x,
     y,
+    reset: reset ?? false, // FIXME: apply the default during config parsing
   };
 }
 
@@ -45,6 +55,7 @@ const compiledLayer = compileLayer(props.layerConfig);
 
 <template>
   <img
+    v-if="!compiledLayer.reset || compiledLayer.active.value"
     :src="compiledLayer.url.href"
     class="positioned-layer"
     :class="{ inactive: !compiledLayer.active.value }"

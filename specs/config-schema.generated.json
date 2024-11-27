@@ -606,6 +606,10 @@
         },
         "condition": {
           "type": "string"
+        },
+        "reset": {
+          "type": "boolean",
+          "default": false
         }
       },
       "required": ["url", "condition"],
