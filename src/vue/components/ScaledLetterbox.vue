@@ -71,5 +71,6 @@ onMounted(() => {
   transform: translateX(calc(1px * var(--translate-x)))
     translateY(calc(1px * var(--translate-y))) scale(var(--scale))
     translate(-50%, -50%);
+  overflow: hidden;
 }
 </style>
