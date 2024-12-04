@@ -15,8 +15,8 @@
 - [`Internationalized text`](#reference-i18nconfig)
 - [`Layers of illustrations and visualizations`](#reference-layersconfig)
   - [`Illustration or visualization layer`](#reference-layerconfig)
+    - [`Builtin layer`](#reference-builtinlayerconfig)
     - [`Conditionally shown illustration layer`](#reference-conditionallayerconfig)
-    - [`Model visualization layer`](#reference-modelvisualizationlayerconfig)
 - [`Marker slot`](#reference-markerslotconfig)
 - [`Model configuration`](#reference-modelconfig)
   - [`Initial parameter values`](#reference-initialparametersconfig)
@@ -217,6 +217,12 @@ Additional properties are not allowed.
 
 - **Type**: `string` `[]`
 - **Required**: &#10003; Yes
+
+---
+
+<a name="reference-builtinlayerconfig"></a>
+
+## Builtin layer
 
 ---
 
@@ -814,12 +820,6 @@ Additional properties are not allowed.
 
 ---
 
-<a name="reference-modelvisualizationlayerconfig"></a>
-
-## Model visualization layer
-
----
-
 <a name="reference-parametertransformconfig"></a>
 
 ## Parameter transformation
@@ -890,6 +890,7 @@ Additional properties are not allowed.
 ### Schema of the app configuration.layers
 
 - **Type**: `LayersConfig`
+  - Each element in the array must be unique.
   - Each element in the array must be one of the following values:
     - `modelVisualization`
 - **Required**: &#10003; Yes

@@ -591,10 +591,10 @@
       ],
       "additionalProperties": false
     },
-    "ModelVisualizationLayerConfig": {
+    "BuiltinLayerConfig": {
       "type": "string",
-      "title": "Model visualization layer",
-      "enum": ["modelVisualization"]
+      "title": "Builtin layer",
+      "enum": ["modelVisualization", "scores", "slots"]
     },
     "ConditionalLayerConfig": {
       "title": "Conditionally shown illustration layer",
@@ -619,7 +619,7 @@
       "title": "Illustration or visualization layer",
       "anyOf": [
         {
-          "$ref": "#/definitions/ModelVisualizationLayerConfig"
+          "$ref": "#/definitions/BuiltinLayerConfig"
         },
         {
           "$ref": "#/definitions/ConditionalLayerConfig"
@@ -631,7 +631,8 @@
       "title": "Layers of illustrations and visualizations",
       "items": {
         "$ref": "#/definitions/LayerConfig"
-      }
+      },
+      "uniqueItems": true
     }
   }
 }

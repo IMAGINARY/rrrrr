@@ -5,7 +5,7 @@ import { onKeyStroke } from '@vueuse/core';
 import ScaledLetterBox from './ScaledLetterbox.vue';
 import PointerMarkerPanel from './PointerMarkerPanel.vue';
 import TuioMarkerPanel from './TuioMarkerPanel.vue';
-import ScoreTable from './ScoreTable.vue';
+import ScoreLayer from './ScoreLayer.vue';
 import ControlPanel from './ControlPanel.vue';
 import ConditionalLayer from './ConditionalLayer.vue';
 import BasicSlotGroup from './BasicSlotGroup.vue';
@@ -14,6 +14,7 @@ import EventCardSlotGroup from './EventCardSlotGroup.vue';
 import ModelVisualization from './ModelVisualization.vue';
 import ResetTimeoutOverlay from './ResetTimeoutOverlay.vue';
 
+import { BUILTIN_LAYER_NAMES } from '../../ts/config/config-constants';
 import { HOTKEYS, BOARD_WIDTH, BOARD_HEIGHT } from '../../ts/builtin-config';
 import { useOptionStore } from '../../ts/stores/options';
 import { useConfigStore } from '../../ts/stores/config';
@@ -165,37 +166,43 @@ onMounted(() => {
     >
       <template v-for="(layerConfig, index) in config.layers">
         <ModelVisualization
-          v-if="layerConfig === 'modelVisualization'"
+          v-if="layerConfig === BUILTIN_LAYER_NAMES.modelVisualization"
           ref="modelVisualizations"
           class="model-visualization"
-          :key="index"
+          :key="`layer-${index}-model-visualization`"
         />
+        <ScoreLayer
+          v-else-if="layerConfig === BUILTIN_LAYER_NAMES.scores"
+          :key="`layer-${index}-scores`"
+        />
+        <div
+          class="slot-panel abs-top-left"
+          v-else-if="layerConfig === BUILTIN_LAYER_NAMES.slots"
+          :key="`layer-${index}-slots`"
+        >
+          <template
+            v-for="slotGroupConfig in config.interaction.slotGroups"
+            :key="slotGroupConfig.id"
+          >
+            <BasicSlotGroup
+              :slot-group-config="slotGroupConfig"
+              v-if="slotGroupConfig.type === 'basic'"
+            ></BasicSlotGroup>
+            <ActionCardSlotGroup
+              :slot-group-config="slotGroupConfig"
+              v-if="slotGroupConfig.type === 'action-card'"
+            ></ActionCardSlotGroup>
+            <EventCardSlotGroup
+              :slot-group-config="slotGroupConfig"
+              v-if="slotGroupConfig.type === 'event-card'"
+            ></EventCardSlotGroup>
+          </template>
+        </div>
         <ConditionalLayer
-          v-if="layerConfig !== 'modelVisualization'"
+          v-else
           :layer-config="layerConfig"
-          :key="index"
+          :key="`layer-${index}-conditional`"
         />
-      </template>
-      <ScoreTable class="score-top-left" />
-      <ScoreTable class="score-bottom-right" />
-    </div>
-    <div class="slot-panel abs-top-left">
-      <template
-        v-for="slotGroupConfig in config.interaction.slotGroups"
-        :key="slotGroupConfig.id"
-      >
-        <BasicSlotGroup
-          :slot-group-config="slotGroupConfig"
-          v-if="slotGroupConfig.type === 'basic'"
-        ></BasicSlotGroup>
-        <ActionCardSlotGroup
-          :slot-group-config="slotGroupConfig"
-          v-if="slotGroupConfig.type === 'action-card'"
-        ></ActionCardSlotGroup>
-        <EventCardSlotGroup
-          :slot-group-config="slotGroupConfig"
-          v-if="slotGroupConfig.type === 'event-card'"
-        ></EventCardSlotGroup>
       </template>
     </div>
     <div class="marker-panel abs-top-left">

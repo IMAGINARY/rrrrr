@@ -43,7 +43,7 @@ const getSlotGroupAssetUrls = (
 };
 
 const getLayerAssetUrl = (config: DeepReadonly<LayerConfig>): string[] => {
-  if (config === 'modelVisualization') return new Array<string>();
+  if (typeof config === 'string') return new Array<string>();
 
   return [config.url];
 };

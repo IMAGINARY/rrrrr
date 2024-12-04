@@ -164,3 +164,56 @@ layers:
     condition: 'new Date().getDate() === 25 && (new Date().getMonth()+1) === 2'
   - url: easteregg_pipie_x3277_y510.webp
     condition: 'new Date().getDate() === 14 && (new Date().getMonth()+1) === 3'
+  - slots
+  - scores
+  # Circularity score
+  # Emoji selection:
+  # - map the interval [0, 1] to [-1, 1] linearly
+  # - apply x |-> x ^ 3 (steeper boundaries, plateau in the middle)
+  # - map the interval [-1, 1] to [0, 5] linearly
+  # - round down to get the emoji index
+  - url: scores/very-bad_x3434_y1960.png
+    condition:
+      'Math.floor((5 * ((2 * variables.circularityScore - 1) ** 3 + 1)) / 2) <=
+      0'
+  - url: scores/bad_x3434_y1960.png
+    condition:
+      'Math.floor((5 * ((2 * variables.circularityScore - 1) ** 3 + 1)) / 2) ===
+      1'
+  - url: scores/neutral_x3434_y1960.png
+    condition:
+      'Math.floor((5 * ((2 * variables.circularityScore - 1) ** 3 + 1)) / 2) ===
+      2'
+  - url: scores/good_x3434_y1960.png
+    condition:
+      'Math.floor((5 * ((2 * variables.circularityScore - 1) ** 3 + 1)) / 2) ===
+      3'
+  - url: scores/very-good_x3434_y1960.png
+    condition:
+      'Math.floor((5 * ((2 * variables.circularityScore - 1) ** 3 + 1)) / 2) >=
+      4'
+  # Coverage score
+  # Emoji selection:
+  # - for the interval [0, 1], apply the mapping used for the circularity score
+  # - for the interval (1, 2], linearly map 1 to 1 and 2 to 0 (mirror),
+  #   then apply the mapping used for the circularity score
+  - url: scores/very-bad_x209_y3.png
+    condition:
+      'Math.floor(5 * (((2 * (1 - Math.abs(Math.min(variables.coverageScore, 2)
+      - 1)) - 1) ** 3) + 1) / 2) <= 0'
+  - url: scores/bad_x209_y3.png
+    condition:
+      'Math.floor(5 * (((2 * (1 - Math.abs(Math.min(variables.coverageScore, 2)
+      - 1)) - 1) ** 3) + 1) / 2) === 1'
+  - url: scores/neutral_x209_y3.png
+    condition:
+      'Math.floor(5 * (((2 * (1 - Math.abs(Math.min(variables.coverageScore, 2)
+      - 1)) - 1) ** 3) + 1) / 2) === 2'
+  - url: scores/good_x209_y3.png
+    condition:
+      'Math.floor(5 * (((2 * (1 - Math.abs(Math.min(variables.coverageScore, 2)
+      - 1)) - 1) ** 3) + 1) / 2) === 3'
+  - url: scores/very-good_x209_y3.png
+    condition:
+      'Math.floor(5 * (((2 * (1 - Math.abs(Math.min(variables.coverageScore, 2)
+      - 1)) - 1) ** 3) + 1) / 2) === 4'

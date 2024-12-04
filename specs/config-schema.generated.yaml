@@ -462,11 +462,13 @@ definitions:
       - eventCardMaxDurationMs
       - slotGroups
     additionalProperties: false
-  ModelVisualizationLayerConfig:
+  BuiltinLayerConfig:
     type: string
-    title: Model visualization layer
+    title: Builtin layer
     enum:
       - modelVisualization
+      - scores
+      - slots
   ConditionalLayerConfig:
     title: Conditionally shown illustration layer
     type: object
@@ -486,10 +488,11 @@ definitions:
   LayerConfig:
     title: Illustration or visualization layer
     anyOf:
-      - $ref: '#/definitions/ModelVisualizationLayerConfig'
+      - $ref: '#/definitions/BuiltinLayerConfig'
       - $ref: '#/definitions/ConditionalLayerConfig'
   LayersConfig:
     type: array
     title: Layers of illustrations and visualizations
     items:
       $ref: '#/definitions/LayerConfig'
+    uniqueItems: true

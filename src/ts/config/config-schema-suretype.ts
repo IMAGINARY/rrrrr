@@ -1,12 +1,18 @@
 import { v, suretype } from 'suretype';
+import {
+  POSITIONAL_ASSET_REGEX,
+  BUILTIN_LAYER_NAMES,
+} from './config-constants';
 import { stockIds, parameterIds } from '../circular-economy-model';
 
-const POSITIONAL_ASSET_REGEX = /_x[+-]?[0-9]+_y[+-]?[0-9]+\.[a-zA-Z0-9]+$/g;
 const AssetUrlSchema = v.string().matches(POSITIONAL_ASSET_REGEX);
 const AssetUrlObjectSchema = suretype(
   { name: 'AssetUrlObjectConfig', title: 'Asset URL object' },
   v.object({ url: AssetUrlSchema.required() }).additional(false),
 );
+const BuiltinLayerNameSchema = v
+  .string()
+  .enum(...Object.values(BUILTIN_LAYER_NAMES));
 
 const I18nSchema = suretype(
   { name: 'I18nConfig', title: 'Internationalized text' },
@@ -150,9 +156,9 @@ const SlotGroupSchema = suretype(
   ]),
 );
 
-const ModelVisualizationLayerSchema = suretype(
-  { name: 'ModelVisualizationLayerConfig', title: 'Model visualization layer' },
-  v.string().enum('modelVisualization'),
+const BuiltinLayerSchema = suretype(
+  { name: 'BuiltinLayerConfig', title: 'Builtin layer' },
+  BuiltinLayerNameSchema,
 );
 
 const ConditionalLayerSchema = suretype(
@@ -172,12 +178,12 @@ const ConditionalLayerSchema = suretype(
 
 const LayerSchema = suretype(
   { name: 'LayerConfig', title: 'Illustration or visualization layer' },
-  v.anyOf([ModelVisualizationLayerSchema, ConditionalLayerSchema]),
+  v.anyOf([BuiltinLayerSchema, ConditionalLayerSchema]),
 );
 
 const LayersSchema = suretype(
   { name: 'LayersConfig', title: 'Layers of illustrations and visualizations' },
-  v.array(LayerSchema),
+  v.array(LayerSchema).unique(true),
 );
 
 const ScoreLabelsSchema = suretype(

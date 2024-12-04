@@ -166,7 +166,7 @@ export interface InteractionConfig {
   slotGroups: SlotGroupConfig[];
 }
 
-export type ModelVisualizationLayerConfig = 'modelVisualization';
+export type BuiltinLayerConfig = 'modelVisualization' | 'scores' | 'slots';
 
 export interface ConditionalLayerConfig {
   url: string;
@@ -174,9 +174,7 @@ export interface ConditionalLayerConfig {
   reset?: boolean;
 }
 
-export type LayerConfig =
-  | ModelVisualizationLayerConfig
-  | ConditionalLayerConfig;
+export type LayerConfig = BuiltinLayerConfig | ConditionalLayerConfig;
 
 export type LayersConfig = LayerConfig[];
 
