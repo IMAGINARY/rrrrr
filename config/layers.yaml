@@ -1,5 +1,5 @@
 layers:
-  - url: background_static_x0_y0.webp
+  - url: background_version39_x0_y0.webp
     condition: 'true'
   - url: repair_background_x1156_y468.webp
     condition: 'true'
