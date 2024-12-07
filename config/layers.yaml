@@ -1,5 +1,5 @@
 layers:
-  - url: background_static_x0_y0.webp
+  - url: background_version39_x0_y0.webp
     condition: 'true'
   - url: repair_background_x1156_y468.webp
     condition: 'true'
@@ -8,11 +8,13 @@ layers:
     condition: 'true'
   - url: government_x879_y1707.webp
     condition: 'true'
-  - url: broken_phones3_x2353_y685.webp
-    condition: 'stocks.supplyOfBrokenPhones > 40000'
+  - url: stock-sign-kaputt_x2216_y873.webp
+    condition: 'true'
   - url: broken_cell2_x2400_y802.webp
+    condition: 'stocks.supplyOfBrokenPhones > 40000'
+  - url: broken_phones3_x2353_y685.webp
     condition: 'stocks.supplyOfBrokenPhones > 100000'
-  - url: broken_phones1_x2286_y877.webp
+  - url: broken_phone_x2316_y870.webp
     condition: 'stocks.supplyOfBrokenPhones > 300000'
   - url: broken_cell1_x2352_y763.webp
     condition: 'stocks.supplyOfBrokenPhones > 500000'
@@ -25,8 +27,6 @@ layers:
       '!parameters.userdata?.policy?.["(P) Ein-Telefon-Gesetz"] &&
       !parameters.userdata?.event?.["(E) Weltweite Chip-Krise"] &&
       !parameters.userdata?.event?.["(E) Transport Streik"]'
-  - url: factory-building_x692_y1343.webp
-    condition: 'true'
   - url: factory_pipe_x673_y997.webp
     condition: 'true'
   - url: factory_workerright_x542_y1039.webp
@@ -34,6 +34,12 @@ layers:
   - url: factory_workers1_x589_y905.webp
     condition: 'true'
   - url: factory_workermiddle_x568_y1077.webp
+    condition: 'true'
+  - url: stock-sign-fabrik_x751_y1243.webp
+    condition: 'true'
+  - url: factory-building_x692_y1343.webp
+    condition: 'true'
+  - url: stock-sign-garbage_x2752_y641.webp
     condition: 'true'
   - url: handiesgarbage_people_x2594_y417.webp
     condition: 'true'
@@ -82,6 +88,8 @@ layers:
   - url: recycle_boxwithr_x974_y259.webp
     condition: 'true'
   - url: reduce_subwaybench_x1050_y948.webp
+    condition: 'true'
+  - url: stock-sign-benutzung_x1171_y915.webp
     condition: 'true'
   - url: reduce_girl2_x1158_y1187.webp
     condition:
@@ -143,6 +151,8 @@ layers:
   - url: reuse_drawer_x2912_y890.webp
     condition: 'true'
   - url: reuse_R_x3170_y997.webp
+    condition: 'true'
+  - url: stock-sign-abandoned_x3200_y1215.webp
     condition: 'true'
   - url: reuse_pool_x3211_y1028.webp
     condition: 'true'
