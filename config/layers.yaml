@@ -1,5 +1,5 @@
 layers:
-  - url: background_static_x0_y0.webp
+  - url: background_version39_x0_y0.webp
     condition: 'true'
   - url: repair_background_x1156_y468.webp
     condition: 'true'
@@ -8,11 +8,13 @@ layers:
     condition: 'true'
   - url: government_x879_y1707.webp
     condition: 'true'
-  - url: broken_phones3_x2353_y685.webp
-    condition: 'stocks.supplyOfBrokenPhones > 40000'
+  - url: stock-sign-kaputt_x2216_y873.webp
+    condition: 'true'
   - url: broken_cell2_x2400_y802.webp
+    condition: 'stocks.supplyOfBrokenPhones > 40000'
+  - url: broken_phones3_x2353_y685.webp
     condition: 'stocks.supplyOfBrokenPhones > 100000'
-  - url: broken_phones1_x2286_y877.webp
+  - url: broken_phone_x2316_y870.webp
     condition: 'stocks.supplyOfBrokenPhones > 300000'
   - url: broken_cell1_x2352_y763.webp
     condition: 'stocks.supplyOfBrokenPhones > 500000'
@@ -25,8 +27,6 @@ layers:
       '!parameters.userdata?.policy?.["(P) Ein-Telefon-Gesetz"] &&
       !parameters.userdata?.event?.["(E) Weltweite Chip-Krise"] &&
       !parameters.userdata?.event?.["(E) Transport Streik"]'
-  - url: factory-building_x692_y1343.webp
-    condition: 'true'
   - url: factory_pipe_x673_y997.webp
     condition: 'true'
   - url: factory_workerright_x542_y1039.webp
@@ -34,6 +34,12 @@ layers:
   - url: factory_workers1_x589_y905.webp
     condition: 'true'
   - url: factory_workermiddle_x568_y1077.webp
+    condition: 'true'
+  - url: stock-sign-fabrik_x751_y1243.webp
+    condition: 'true'
+  - url: factory-building_x692_y1343.webp
+    condition: 'true'
+  - url: stock-sign-garbage_x2752_y641.webp
     condition: 'true'
   - url: handiesgarbage_people_x2594_y417.webp
     condition: 'true'
@@ -83,6 +89,8 @@ layers:
     condition: 'true'
   - url: reduce_subwaybench_x1050_y948.webp
     condition: 'true'
+  - url: stock-sign-benutzung_x1171_y915.webp
+    condition: 'true'
   - url: reduce_girl2_x1158_y1187.webp
     condition:
       'parameters.userdata.reduce != 1 && parameters.userdata.reduce != 2 &&
@@ -129,7 +137,7 @@ layers:
   - url: repair_background_x1156_y468.webp
     condition: 'false'
   - url: repair_gangster_x1206_y568.webp
-    condition: 'flows.acquireRepaired > 200000'
+    condition: 'parameters.userdata.repair >= 1.5'  
   - url: repair_woman_x1336_y546.webp
     condition: 'flows.acquireRepaired > 20000'
   - url: repair_injection_x1737_y400.webp
@@ -143,6 +151,8 @@ layers:
   - url: reuse_drawer_x2912_y890.webp
     condition: 'true'
   - url: reuse_R_x3170_y997.webp
+    condition: 'true'
+  - url: stock-sign-abandoned_x3200_y1215.webp
     condition: 'true'
   - url: reuse_pool_x3211_y1028.webp
     condition: 'true'
@@ -228,3 +238,99 @@ layers:
   - url: scores/very-good_x209_y3.png
     condition:
       'variables.coverageScore >= 0.92172 && variables.coverageScore < 1.07828'
+#speeech bubbles refurbish
+  - url: R16_x2740_y1284.webp
+    condition: 'parameters.userdata.refurbish != 3 && parameters.userdata.refurbish != 2 && parameters.userdata.refurbish != 1 && stocks.supplyOfHibernatingPhones > 40000'
+    reset: true
+  - url: R17_x2526_y1365.webp
+    condition: 'parameters.userdata.refurbish >= 0.5'
+    reset: true
+  - url: R18_x2345_y1410.webp
+    condition: 'parameters.userdata.refurbish >= 1.5'
+    reset: true
+  - url: R19_x2785_y1444.webp
+    condition: 'parameters.userdata.refurbish >= 2.5'
+    reset: true
+#speeech bubbles repair
+  - url: R12_x1745_y275.webp
+    condition: 'parameters.userdata.repair != 3 && parameters.userdata.repair != 2 && parameters.userdata.repair != 1 && stocks.supplyOfBrokenPhones > 40000'
+    reset: true
+  - url: R13_x1395_y415.webp
+    condition: 'parameters.userdata.repair >= 0.5'
+    reset: true
+  - url: R14_x1466_y502.webp
+    condition: 'parameters.userdata.repair >= 1.5'
+    reset: true
+  - url: R15_x1198_y566.webp
+    condition: 'parameters.userdata.repair >= 2.5'
+    reset: true
+#speeech bubbles reuse
+  - url: R8_x3122_y817.webp
+    condition: 'parameters.userdata.reuse != 3 && parameters.userdata.reuse != 2 && parameters.userdata.reuse != 1'
+    reset: true
+  - url: R9_x2841_y955.webp
+    condition: 'parameters.userdata.reuse >= 0.5'
+    reset: true
+  - url: R10_x2923_y946.webp
+    condition: 'parameters.userdata.reuse >= 1.5'
+    reset: true
+  - url: R11_x2837_y947.webp
+    condition: 'parameters.userdata.reuse >= 2.5'
+    reset: true
+#speeech bubbles reduce
+  - url: R2_x1360_y1284.webp
+    condition: 'parameters.userdata.reduce != 3 && parameters.userdata.reduce != 2 && parameters.userdata.reduce != 1'
+    reset: true
+  - url: R3_x1275_y1132.webp
+    condition: 'parameters.userdata.reduce >= 0.5'
+    reset: true
+  - url: R4_x1201_y991.webp
+    condition: 'parameters.userdata.reduce >= 1.5'
+    reset: true
+  - url: R5_x1019_y996.webp
+    condition: 'parameters.userdata.reduce >= 2.5'
+    reset: true
+#speeech bubbles recycle
+  - url: R20_x678_y542.webp
+    condition: 'parameters.userdata.recycle != 3 && parameters.userdata.recycle != 2 && parameters.userdata.recycle != 1'
+    reset: true
+  - url: R21_x785_y326.webp
+    condition: 'parameters.userdata.recycle >= 0.5'
+    reset: true
+  - url: R22_x573_y389.webp
+    condition: 'parameters.userdata.recycle >= 1.5'
+    reset: true
+  - url: R23_x908_y414.webp
+    condition: 'parameters.userdata.recycle >= 2.5'
+    reset: true
+#speech bubbles index related
+  - url: R30_x3330_y1872.webp
+    condition: 'variables.circularityScore < 0.078'
+    reset: true
+  - url: R31_x485_y1584.webp
+    condition: 'variables.circularityScore < 0.2'
+    reset: true
+  - url: R6_x945_y1248.webp
+    condition:
+      '(variables.coverageScore < 0.8 )'
+    reset: true
+  - url: R7_x901_y1241.webp
+    condition: '(variables.coverageScore > 1.4 )'
+    reset: true
+#speech bubbles card related
+  - url: R28_x2570_y122.webp
+    condition: 'typeof parameters.userdata?.event === "undefined"'
+    reset: true
+  - url: R29_x2306_y142.webp
+    condition: 'typeof parameters.userdata?.event !== "undefined"'
+    reset: true
+  - url: R25_x1011_y1725.webp
+    condition: 'typeof parameters.userdata?.policy === "undefined"'
+    reset: true
+  - url: R26_x674_y1130.webp
+    condition: 'typeof parameters.userdata?.technology === "undefined"'
+    reset: true
+#speech bubbles other conditions
+  - url: R27_x2305_y741.webp
+    condition: 'stocks.supplyOfBrokenPhones <= 40000'
+    reset: true
