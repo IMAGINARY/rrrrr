@@ -107,8 +107,8 @@ interaction:
           url: slots/marker-slot-inactive_x-121_y-121.webp
       markerSlots:
         - { id: reduce-ms-1, x: 1574, y: 1171, angle: 0 }
-        - { id: reduce-ms-2, x: 1821, y: 1234, angle: 0 }
-        - { id: reduce-ms-3, x: 2066, y: 1294, angle: 0 }
+        - { id: reduce-ms-2, x: 1821, y: 1229, angle: 0 }
+        - { id: reduce-ms-3, x: 2066, y: 1279, angle: 0 }
       parameterTransformIds: [reduce, reduce, reduce]
     - id: reuse
       type: basic

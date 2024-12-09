@@ -51,6 +51,8 @@ const flowIds = [
 ] as const;
 
 const variableIds = [
+  'circularityScore',
+  'coverageScore',
   'demandForMining',
   'demandForNaturalResources',
   'demandForNewlyProducedPhones',
@@ -73,6 +75,8 @@ const variableIds = [
   'supplyOfHibernatingPhonesForDisposal',
   'supplyOfHibernatingPhonesForRefurbishment',
   'supplyOfHibernatingPhonesForReuse',
+  'weightedSumOfBadFlows',
+  'weightedSumOfGoodFlows',
 ] as const;
 
 const parameterIds = [
@@ -352,10 +356,28 @@ class CircularEconomyModel extends Model<
     const repairShopCapcityAdjustment =
       capacityAdjustmentRate *
       (demandForRepairedPhones - capacityOfRepairedPhones);
+    const weightedSumOfGoodFlows =
+      acquireUsed +
+      (repair + acquireRepaired) / 2 +
+      (refurbish + acquireRepaired) / 2 +
+      (recycle + produceFromRecycledMaterials) / 2;
+    const weightedSumOfBadFlows = (produceFromNaturalResources + landfill) / 2;
+    const circularityScore = Math.max(
+      Math.min(
+        weightedSumOfGoodFlows /
+          (Math.abs(weightedSumOfGoodFlows + weightedSumOfBadFlows) +
+            2.220446049250313e-16),
+        1,
+      ),
+      0,
+    );
+    const coverageScore = phonesInUse / phoneGoal;
     const demandForReusedPhones =
       (reuseIncentive / inflowIncentiveSumForPhonesInUse) * demandForPhones;
 
     const variables = {
+      circularityScore,
+      coverageScore,
       demandForMining,
       demandForNaturalResources,
       demandForNewlyProducedPhones,
@@ -378,6 +400,8 @@ class CircularEconomyModel extends Model<
       supplyOfHibernatingPhonesForDisposal,
       supplyOfHibernatingPhonesForRefurbishment,
       supplyOfHibernatingPhonesForReuse,
+      weightedSumOfBadFlows,
+      weightedSumOfGoodFlows,
     };
     const flows = {
       abandon,

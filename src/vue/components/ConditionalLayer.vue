@@ -11,6 +11,8 @@ import { useConfigStore } from '../../ts/stores/config';
 import { useModelStore } from '../../ts/stores/model';
 import { compile } from '../../ts/util/record-condition';
 
+import { TRANSPARENT_PIXEL_DATA_URL } from '../../ts/builtin-config';
+
 const props = defineProps<{
   readonly layerConfig: DeepReadonly<ConditionalLayerConfig>;
 }>();
@@ -54,9 +56,14 @@ const compiledLayer = compileLayer(props.layerConfig);
 </script>
 
 <template>
+  <!--
+    FIXME: Resetting animations on Firefox sometimes does not work due to this bug:
+           https://bugzilla.mozilla.org/show_bug.cgi?id=129986
+           A (tested) workaround would be to add a cache buster to the URL every time the layer is reset, but
+           I don't want to introduce browser specific code right now.
+  -->
   <img
-    v-if="!compiledLayer.reset || compiledLayer.active.value"
-    :src="compiledLayer.url.href"
+    :src="`${compiledLayer.reset && !compiledLayer.active.value ? TRANSPARENT_PIXEL_DATA_URL : compiledLayer.url.href}`"
     class="positioned-layer"
     :class="{ inactive: !compiledLayer.active.value }"
     :style="{

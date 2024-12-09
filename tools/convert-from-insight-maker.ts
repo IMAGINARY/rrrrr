@@ -126,6 +126,7 @@ function transformFormulaToJs(expression: string): string {
     f = f.replaceAll(`[${i[1]}]`, `[${transformNameToJs(i[1])}]`);
   });
   f = f.replaceAll(/\s/g, '');
+  f = f.replaceAll('Abs(', 'Math.abs(');
   f = f.replaceAll('Min(', 'Math.min(');
   f = f.replaceAll('Max(', 'Math.max(');
 
