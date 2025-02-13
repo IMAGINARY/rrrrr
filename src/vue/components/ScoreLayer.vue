@@ -113,24 +113,32 @@ const format = (score: number, boundaries: BoundariesType) => {
   font-size: 30px;
 }
 
+.score-content {
+  position: absolute;
+  text-align: left;
+  text-transform: uppercase;
+}
+
 .score-top-left {
   top: 0;
   left: 0;
   transform: translate(-50%, -50%) rotate(135deg);
+
+  .score-content {
+    top: 82px;
+    left: 417px;
+  }
 }
 
 .score-bottom-right {
   bottom: 0;
   right: 0;
   transform: translate(50%, 50%) rotate(-45deg);
-}
 
-.score-content {
-  position: absolute;
-  top: 143px;
-  left: 452px;
-  text-align: left;
-  text-transform: uppercase;
+  .score-content {
+    top: 82px;
+    left: 449px;
+  }
 }
 
 .score-labels {

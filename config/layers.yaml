@@ -177,6 +177,8 @@ layers:
   - slots
   - scores
   # Circularity score
+  - url: scores/circularity_x3433_y1955.webp
+    condition: 'true'
   # Emoji selection:
   # - map the interval [0, 1] to [-1, 1] linearly
   # - apply x |-> x ^ 3 (steeper boundaries, plateau in the middle)
@@ -189,23 +191,25 @@ layers:
   #     [0.2076, 0.7924) -> 2 (neutral)
   #     [0.7924, 0.92172) -> 3 (good)
   #     [0.92172, 1.0] -> 4 (very good)
-  - url: scores/very-bad_x3434_y1960.png
+  - url: scores/very-bad_x3633_y1954.png
     condition: 'variables.circularityScore < 0.07828'
-  - url: scores/bad_x3434_y1960.png
+  - url: scores/bad_x3633_y1954.png
     condition:
       'variables.circularityScore >= 0.07828 && variables.circularityScore <
       0.2076'
-  - url: scores/neutral_x3434_y1960.png
+  - url: scores/neutral_x3633_y1954.png
     condition:
       'variables.circularityScore >= 0.2076 && variables.circularityScore <
       0.7924'
-  - url: scores/good_x3434_y1960.png
+  - url: scores/good_x3633_y1954.png
     condition:
       'variables.circularityScore >= 0.7924 && variables.circularityScore <
       0.92172'
-  - url: scores/very-good_x3434_y1960.png
+  - url: scores/very-good_x3633_y1954.png
     condition: 'variables.circularityScore >= 0.92172'
   # Coverage score
+  - url: scores/coverage_x315_y57.webp
+    condition: 'true'
   # Emoji selection:
   # - for the interval [0, 1], apply the mapping used for the circularity score
   # - for the interval (1, 2], linearly map 1 to 1 and 2 to 0 (mirror),
@@ -217,25 +221,25 @@ layers:
   #     [0.2076, 0.7924) ∪ [1.2076, 1.7924) -> 2 (neutral)
   #     [0.7924, 0.92172) ∪ [1.07828, 1.2076) -> 3 (good)
   #     [0.92172, 1.07828) -> 4 (very good)
-  - url: scores/very-bad_x209_y3.png
+  - url: scores/very-bad_x19_y14.png
     condition:
       '(variables.coverageScore < 0.07828 ) || (variables.coverageScore >=
       1.92172)'
-  - url: scores/bad_x209_y3.png
+  - url: scores/bad_x19_y14.png
     condition:
       '(variables.coverageScore >= 0.07828 && variables.coverageScore < 0.2076)
       || (variables.coverageScore >= 1.7924 && variables.coverageScore <
       1.92172)'
-  - url: scores/neutral_x209_y3.png
+  - url: scores/neutral_x19_y14.png
     condition:
       '(variables.coverageScore >= 0.2076 && variables.coverageScore < 0.7924)
       || (variables.coverageScore >= 1.2076 && variables.coverageScore < 1.7924)'
-  - url: scores/good_x209_y3.png
+  - url: scores/good_x19_y14.png
     condition:
       '(variables.coverageScore >= 0.7924 && variables.coverageScore < 0.92172)
       || (variables.coverageScore >= 1.07828 && variables.coverageScore <
       1.2076)'
-  - url: scores/very-good_x209_y3.png
+  - url: scores/very-good_x19_y14.png
     condition:
       'variables.coverageScore >= 0.92172 && variables.coverageScore < 1.07828'
   # Speech bubbles: Refurbish
@@ -316,7 +320,9 @@ layers:
     reset: true
   # Speech bubbles: Index
   - url: speech bubbles/R30_x3330_y1872.webp
-    condition: 'variables.circularityScore < 0.078'
+    # Disable speech bubble overlapping with the circularity score until a better solution is found
+    condition: 'false'
+    # condition: 'variables.circularityScore < 0.078'
     reset: true
   - url: speech bubbles/R31_x485_y1584.webp
     condition: 'variables.circularityScore < 0.2'
